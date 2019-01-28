@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Play Squares</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<script src="../scripts/main.js"></script>
+
+
+</head>
+
+<style>
+
+.container {
+	text-align: center;
+}
+
+
+</style>
+
+<body onload = "showCurrentScores()">
+
+	<div class="container">
+		<div class="form-group">
+			<div class="container">
+				<div class="form-group">
+					<div id = "score_pats_current"></div>
+				</div>
+				<div class="form-group">
+					<div id = "score_rams_current"></div>
+				</div>
+			</div>
+			<div class="container">
+				<tr>PATRIOTS</tr>
+			</div>
+			<div class="container">
+				<th>
+					<tr>
+						<td>
+							EMPTY
+						</td>
+						<td>
+							0
+						</td>
+						<td>
+							1
+						</td>
+						<td>
+							2
+						</td>
+						<td>
+							3
+						</td>
+						<td>
+							4
+						</td>
+						<td>
+							5
+						</td>
+						<td>
+							6
+						</td>
+						<td>
+							7
+						</td>
+						<td>
+							3
+						</td>
+						<td>
+							4
+						</td>
+					</tr>
+				</th>
+			</div>
+		</div>
+	</div>
+
+	<div class = "container">
+
+	</div>
+
+
+</div>
+
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-database.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-functions.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
+<script>
+    var config = {
+    apiKey: "AIzaSyCUGB7Y0OjCATuHDPdqkz7s-ubBYBd-UPY",
+    authDomain: "squares-89f70.firebaseapp.com",
+    databaseURL: "https://squares-89f70.firebaseio.com",
+    projectId: "squares-89f70",
+    storageBucket: "squares-89f70.appspot.com",
+    messagingSenderId: "800364648521"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+
+
+</html>
