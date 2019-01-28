@@ -53,13 +53,12 @@ function showCurrentScores() {
 }
 
 function showRegisteredUsers() {
-	var htmltableappend = ""
 	var users = firebase.database().ref('users');
 	$(".registered-users").html("");
 	//todo move this table out to a new location
-
+	var htmlheader = '<tr class = "form-group"><td class = "form-group">id</td><td class = "form-group">email</td><td class = "form-group">first name</td><td class = "form-group">last name</td></tr>'
 	//todo add in table labels
-
+	$(".registered-users").append(htmlheader);
 	users.on('value', function(snapshot) {
 		snapshot.forEach(function(user){
 			htmltableappend="";
