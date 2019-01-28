@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Admin</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <script src="../scripts/main.js"></script>
+	<title>Admin</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<script src="../scripts/main.js"></script>
 
 
 </head>
@@ -18,10 +18,16 @@
 	text-align: center;
 }
 
-
+td {
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-left-style: dashed;
+	border-right-style: dashed;
+	border-width: 1px;
+}
 </style>
 
-<body onload = "showCurrentScores()">
+<body onload = "loadAdminPage()">> <!-- showCurrentScores()"> -->
 
 	<div class="container">
 		<h1 class = "jumbotron">ADMIN PAGE</h1>
@@ -38,13 +44,33 @@
 			<input type="text" pattern="\d*" class="form-control" id= "score_rams" placeholder="Rams">
 		</div>
 		<div class="form-group">
-				<input type="text" pattern="\d*" class="form-control" id = "score_pats" placeholder="Patriots">
+			<input type="text" pattern="\d*" class="form-control" id = "score_pats" placeholder="Patriots">
 		</div>
 		<div class = "form-group">
-			<button class='btn' onclick="updateScores()">Submit</button>
+			<button class='btn' onclick="updateScores()">Update Score</button>
 		</div>
 	</div>
-
+	<br>
+	<div class = "container">
+		<div class="form-group">
+			<table class = "container registered-users">
+				<tr class = "form-group">
+					<td class = "form-group">
+						id
+					</td>
+					<td class = "form-group">
+						email
+					</td>
+					<td class = "form-group">
+						first name
+					</td>
+					<td class = "form-group">
+						last name
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 
 </div>
 
@@ -63,15 +89,15 @@
 <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-functions.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
 <script>
-    var config = {
-    apiKey: "AIzaSyCUGB7Y0OjCATuHDPdqkz7s-ubBYBd-UPY",
-    authDomain: "squares-89f70.firebaseapp.com",
-    databaseURL: "https://squares-89f70.firebaseio.com",
-    projectId: "squares-89f70",
-    storageBucket: "squares-89f70.appspot.com",
-    messagingSenderId: "800364648521"
-  };
-  firebase.initializeApp(config);
+	var config = {
+		apiKey: "AIzaSyCUGB7Y0OjCATuHDPdqkz7s-ubBYBd-UPY",
+		authDomain: "squares-89f70.firebaseapp.com",
+		databaseURL: "https://squares-89f70.firebaseio.com",
+		projectId: "squares-89f70",
+		storageBucket: "squares-89f70.appspot.com",
+		messagingSenderId: "800364648521"
+	};
+	firebase.initializeApp(config);
 </script>
 
 </html>
