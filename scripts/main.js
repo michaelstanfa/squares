@@ -1,49 +1,18 @@
 function register() {
+	var firstName = document.getElementById("fname");
+	var lastName = document.getElementById("lname");
+	var emailName = document.getElementById("email");
 
-	var newUser = document.getElementById("newUserForm");
-	
-}
-
-function userEmailExists(user){
-	//get email from page now
-	var em = "test-2@live.com";
-	console.log(user.val().email);
-	if(em == user.val().email) {
-		console.log(em + " is already registered");
-		throw (new Error("ERROR MESSAGE"));
+	if(firstName.value =="" || lastName.value == "" || emailName.value == ""){
+		window.alert("Please fill out each piece of the form.");
+	} else {
+		createNewUser(firstName.value, lastName.value, emailName.value);
+		window.alert("Thank you! You'll be contacted shortly with more info");
 	}
 }
 
-function doesUserExist(em) {
-	var users = firebase.database().ref('users');
-	users.on('value', function(snapshot) {
-		snapshot.forEach(function(user){
-			console.log(user);
-			try {
-				userEmailExists(user)
-			} catch (Error) {
-				return true;
-				console.log("CAUGHT ERROR IN DOESUSEREXIST");
-			}
-		});
-	});
-}
-
-
 function createNewUser(firstnameinput, lastnameinput, emailinput) {
-	// var createNew = doesUserExist(emailinput);
-	// console.log("create new: " + createNew);
-		//void method that will stop anything else from running
-		try{
-			var cont = sync.await(doesUserExist(emailinput));
-			console.log(cont);
-			console.log("after doesUserExist");
-		} catch {
-			console.log("catch in createnewuser")
-		}
-	/*  if(doesUserExist(emailinput)){
-	  	console.log("comparing " + emailinput + " with one above");
-	  	console.log("got into create new user");
+
 		var userData = {
 		  	firstname: firstnameinput,
 		  	lastname: lastnameinput,
@@ -56,15 +25,7 @@ function createNewUser(firstnameinput, lastnameinput, emailinput) {
 		  var updates = {};
 		  updates['/users/' + newUserKey] = userData;
 
-		  return firebase.database().ref().update(updates);
-	  } else {
-	  	console.log("returned false");
-	  }*/
-}
-
-function testFirebase(){
-	// getEmail();
-	createNewUser("hilary","hamilton","michael.t.stanfa@gmail.com");
+		  firebase.database().ref().update(updates);
 }
 
 function updateScores() {
@@ -89,4 +50,31 @@ function showCurrentScores() {
 		$("#score_pats_current").html("Pats: " + snapshot.val().pats);
 		$("#score_rams_current").html("Rams: " + snapshot.val().rams);
 	});
+}
+
+function showRegisteredUsers() {
+	var htmltableappend = ""
+	var users = firebase.database().ref('users');
+	$(".registered-users").html("");
+	//todo move this table out to a new location
+
+	//todo add in table labels
+
+	users.on('value', function(snapshot) {
+		snapshot.forEach(function(user){
+			htmltableappend="";
+			htmltableappend += "<tr class = 'form-group'>";
+			htmltableappend += "<td class = 'form-group'>"+user.key+"</td>";
+			htmltableappend += "<td class = 'form-group'>"+user.val().email+"</td>";
+			htmltableappend += "<td class = 'form-group'>"+user.val().firstname+"</td>";
+			htmltableappend += "<td class = 'form-group'>"+user.val().lastname+"</td>";
+			htmltableappend += "</tr>";
+			$(".registered-users").append(htmltableappend);
+		});
+	});
+}
+
+function loadAdminPage() {
+	showCurrentScores();
+	showRegisteredUsers();
 }
