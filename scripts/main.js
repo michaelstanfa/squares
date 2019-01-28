@@ -7,6 +7,7 @@ function register() {
 		window.alert("Please fill out each piece of the form.");
 	} else {
 		createNewUser(firstName.value, lastName.value, emailName.value);
+		window.alert("Thank you! You'll be contacted shortly with more info");
 	}
 }
 
@@ -54,7 +55,11 @@ function showCurrentScores() {
 function showRegisteredUsers() {
 	var htmltableappend = ""
 	var users = firebase.database().ref('users');
-	users.key;
+	$(".registered-users").html("");
+	//todo move this table out to a new location
+
+	//todo add in table labels
+
 	users.on('value', function(snapshot) {
 		snapshot.forEach(function(user){
 			htmltableappend="";
