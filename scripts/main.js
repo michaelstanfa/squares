@@ -8,6 +8,9 @@ function register() {
 	} else {
 		createNewUser(firstName.value, lastName.value, emailName.value);
 		window.alert("Thank you! You'll be contacted shortly with more info");
+		firstName.value = "";
+		lastName.value = "";
+		emailName.value = "";
 	}
 }
 
@@ -56,21 +59,22 @@ function showRegisteredUsers() {
 	var users = firebase.database().ref('users');
 	$(".registered-users").html("");
 	//todo move this table out to a new location
-	var htmlheader = '<tr class = "form-group"><td class = "form-group">id</td><td class = "form-group">email</td><td class = "form-group">first name</td><td class = "form-group">last name</td></tr>'
-	//todo add in table labels
+	var htmlheader = "<tbody><tr class='header'><td>id</td><td>email</td><td>first name</td><td>last name</td></tr>"
+	//todo add in delete option from id column
 	$(".registered-users").append(htmlheader);
 	users.on('value', function(snapshot) {
 		snapshot.forEach(function(user){
 			htmltableappend="";
-			htmltableappend += "<tr class = 'form-group'>";
-			htmltableappend += "<td class = 'form-group'>"+user.key+"</td>";
-			htmltableappend += "<td class = 'form-group'>"+user.val().email+"</td>";
-			htmltableappend += "<td class = 'form-group'>"+user.val().firstname+"</td>";
-			htmltableappend += "<td class = 'form-group'>"+user.val().lastname+"</td>";
+			htmltableappend += "<tr>";
+			htmltableappend += "<td>"+user.key+"</td>";
+			htmltableappend += "<td>"+user.val().email+"</td>";
+			htmltableappend += "<td >"+user.val().firstname+"</td>";
+			htmltableappend += "<td>"+user.val().lastname+"</td>";
 			htmltableappend += "</tr>";
 			$(".registered-users").append(htmltableappend);
 		});
 	});
+	$(".registered-users").append("</tbody>");
 }
 
 function loadAdminPage() {

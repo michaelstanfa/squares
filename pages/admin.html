@@ -3,7 +3,7 @@
 <head>
 	<title>Admin</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -18,13 +18,19 @@
 	text-align: center;
 }
 
-td {
-	border-top-style: solid;
-	border-bottom-style: solid;
-	border-left-style: dashed;
-	border-right-style: dashed;
-	border-width: 1px;
+.header {
+	font-weight: bold;
 }
+
+table {
+	padding: 2px;
+	border-bottom:
+	border-top;
+	border-bottom;
+	text-align:outside;
+	overflow: auto;
+}
+
 </style>
 
 <body onload = "loadAdminPage()"> <!-- showCurrentScores()"> -->
@@ -52,27 +58,10 @@ td {
 	</div>
 	<br>
 	<div class = "container">
-		<div class="form-group">
-			<table class = "container registered-users">
-				<tr class = "form-group">
-					<td class = "form-group">
-						id
-					</td>
-					<td class = "form-group">
-						email
-					</td>
-					<td class = "form-group">
-						first name
-					</td>
-					<td class = "form-group">
-						last name
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+		<table class = "table registered-users">
 
-</div>
+		</table>
+	</div>
 
 </body>
 
