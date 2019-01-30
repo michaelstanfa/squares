@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Sign up for Squares!</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <script src="scripts/main.js"></script>
+	<title>Sign up for Squares!</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+	<script src="scripts/main.js"></script>
 
 
 </head>
@@ -18,28 +20,36 @@
 	text-align: center;
 }
 
+.current-user-count {
+	font-weight:bold;
+}
+
 
 </style>
 
-<body>
+<body onload = "retrieveCurrentUserCount()">
 
 	<div class="container">
-	  <div class="jumbotron">
-	    <h1>Squares</h1> 
-	    <p>When you play the game of squares...you win, or you die.</p> 
-	  </div> 
+		<div class="jumbotron">
+			<h1>Squares</h1> 
+			<p>When you play the game of squares...you win, or you die.</p> 			
+		</div> 
 	</div>
-	
+
+	<div class = "container">
+		<h4 id = "current-user-count" class = "current-user-count"></h4>
+	</div>
+	<br>
 	<div class = "container">
 		<div id="newUserForm">
 			<div class="form-group">
-					<input type="text" class="form-control" id = "fname" placeholder="First Name">
+				<input type="text" class="form-control" id = "fname" placeholder="First Name">
 			</div>
 			<div class="form-group">
-					<input type="text" class="form-control" id= "lname" placeholder="Last Name">
+				<input type="text" class="form-control" id= "lname" placeholder="Last Name">
 			</div>
 			<div class="form-group">
-					<input type="text" class="form-control" id="email" placeholder="Email">
+				<input type="text" class="form-control" id="email" placeholder="Email">
 			</div>
 			<div class="form-group">
 				<button class="btn btn-info" onclick="register()">Register</button>
@@ -66,12 +76,12 @@
 <script>
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyCUGB7Y0OjCATuHDPdqkz7s-ubBYBd-UPY",
-    authDomain: "squares-89f70.firebaseapp.com",
-    databaseURL: "https://squares-89f70.firebaseio.com",
-    projectId: "squares-89f70",
-    storageBucket: "squares-89f70.appspot.com",
-    messagingSenderId: "800364648521"
+  	apiKey: "AIzaSyCUGB7Y0OjCATuHDPdqkz7s-ubBYBd-UPY",
+  	authDomain: "squares-89f70.firebaseapp.com",
+  	databaseURL: "https://squares-89f70.firebaseio.com",
+  	projectId: "squares-89f70",
+  	storageBucket: "squares-89f70.appspot.com",
+  	messagingSenderId: "800364648521"
   };
   firebase.initializeApp(config);
 </script>
