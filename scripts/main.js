@@ -16,11 +16,11 @@ function register() {
 
 function createNewUser(firstnameinput, lastnameinput, emailinput) {
 
-		var userData = {
-		  	firstname: firstnameinput,
-		  	lastname: lastnameinput,
-		  	email: emailinput
-		  };
+	var userData = {
+		firstname: firstnameinput,
+		lastname: lastnameinput,
+		email: emailinput
+	};
 
 		  // Get a key for a new user.
 		  var newUserKey = firebase.database().ref().child('users').push().key;
@@ -29,18 +29,18 @@ function createNewUser(firstnameinput, lastnameinput, emailinput) {
 		  updates['/users/' + newUserKey] = userData;
 
 		  firebase.database().ref().update(updates);
-}
+		}
 
-function updateScores() {
-	var db = firebase.database();
-	var updateData = {
-		rams: document.getElementById("score_rams").value,
-		pats: document.getElementById("score_pats").value
-	}
+		function updateScores() {
+			var db = firebase.database();
+			var updateData = {
+				rams: document.getElementById("score_rams").value,
+				pats: document.getElementById("score_pats").value
+			}
 
-	var scoreUpdates = {};
-	scoreUpdates['scores'] = updateData;
-	db.ref().update(scoreUpdates);
+			var scoreUpdates = {};
+			scoreUpdates['scores'] = updateData;
+			db.ref().update(scoreUpdates);
 	document.getElementById("score_rams").value = "";// = '';
 	document.getElementById("score_pats").value = "";//value = '';
 
@@ -84,7 +84,6 @@ function showRegisteredUsers() {
 		snapshot.forEach(function(user){
 			
 			var userobj = {email:user.val().email, firstname:user.val().firstname, lastname:user.val().lastname,key:user.key};
-			console.log(userobj);
 			htmltableappend="";
 			htmltableappend += "<tr>";
 			htmltableappend += "<td><i userkey = '" + user.key + "' class = 'fa fa-info-circle' onclick='openUserModal(" + JSON.stringify(userobj) + ")' data-target='#infoModal' data-toggle='modal'></i></td>";
@@ -124,6 +123,8 @@ function loadGrid() {
 }
 
 function loadAdminPage() {
+	auth();
+
 	showCurrentScores();
 	showRegisteredUsers();
 	loadGrid();
@@ -147,4 +148,32 @@ function openUserModal(ele) {
 
 function deleteUser(userkey) {
 	console.log("Deleting user " + userkey.text());
+}
+
+//authentication stuff
+function auth() {
+
+	var provider = new firebase.auth.GoogleAuthProvider();
+	firebase.auth().signInWithRedirect(provider);
+
+	firebase.auth().getRedirectResult().then(function(result) {
+	  if (result.credential) {
+	    // This gives you a Google Access Token. You can use it to access the Google API.
+	    var token = result.credential.accessToken;
+	    // ...
+	  }
+	  // The signed-in user info.
+	  var user = result.user;
+	}).catch(function(error) {
+	  // Handle Errors here.
+	  var errorCode = error.code;
+	  var errorMessage = error.message;
+	  // The email of the user's account used.
+	  var email = error.email;
+	  // The firebase.auth.AuthCredential type that was used.
+	  var credential = error.credential;
+	  // ...
+	});
+
+
 }
