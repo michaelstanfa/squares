@@ -8,7 +8,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 	<script src="../scripts/main.js"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin>
+	<script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
 
 	<!-- http://bootstrapdocs.com/v3.3.4/docs/javascript/ -->
 
@@ -41,7 +43,11 @@ table {
 }
 
 .scores{
-	display:inline-block
+	display:inline-block;
+}
+
+.inline {
+	display:inline-block;
 }
 
 /*.top_num {
@@ -60,11 +66,11 @@ table {
 	<div class = "container">
 		<div class="form-group">
 			<h4 class = "scores">
-					<div class = "scores">Rams: </div>
-					<div class = "scores" id="score_rams_current" value></div>
-					<br>
-					<div class = "scores">Pats: </div>
-					<div class = "scores"id= "score_pats_current" value></div>
+				<div class = "scores">Rams: </div>
+				<div class = "scores" id="score_rams_current" value></div>
+				<br>
+				<div class = "scores">Pats: </div>
+				<div class = "scores"id= "score_pats_current" value></div>
 			</h4>
 		</div>
 		<div class="form-group">
@@ -110,7 +116,8 @@ table {
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 id="modal-title"></h4>
+					<h4 id="modal-title" class = "inline"></h4>
+					<button class="inline send-email btn btn-primary" onclick="sendEmail()">Email</button>
 				</div>
 				<div class="modal-body">
 					<p id = "modal-user-firstname-lastname"></p>
