@@ -1,11 +1,6 @@
   function authenticate() {
 
       if(gapi.auth2.getAuthInstance().isSignedIn.get()){
-        console.log(gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName());
-        
-        console.log(gapi.auth2.GoogleUser);
-        console.log("signed in");
-
         return gapi.auth2.getAuthInstance();
       } else {
       return gapi.auth2.getAuthInstance()
