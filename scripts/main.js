@@ -56,7 +56,14 @@ function retrieveCurrentUserCount() {
 	var users = firebase.database().ref('users');
 	users.on('value', function(snapshot) {
 		var userCount = count(snapshot);
-		$("#current-user-count").html("Join " + userCount + " others now - only " + (20 - userCount) + " spots left!");
+		if(userCount >= 20) {
+			$("#current-user-count").html("Sorry, we're all full! Maybe next time!");
+			$("#register-button").attr("disabled","disabled");
+		} else {
+			$("#register-button").removeAttr("disabled");
+			$("#current-user-count").html("Join " + userCount + " others now - only " + (20 - userCount) + " spots left!");	
+		}
+		
 	});
 }
 
