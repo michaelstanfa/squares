@@ -147,14 +147,13 @@ function deleteUser(userkey) {
 }
 
 //authentication stuff
-function loginWithGoogle() {
+function loginWithGoogle(result) {
 
-	firebase.auth().signInWithPopup(provider).then(function(result){
-
-		if (result.credential) {
+	// firebase.auth().signInWithPopup(provider).then(function(result){
+		if (result.currentUser) {
 		    // This gives you a Google Access Token. You can use it to access the Google API.
-		    var token = result.credential.accessToken;
-		    console.log(result);
+		    var user = result.currentUser;
+		    console.log(user);
 		    console.log(result.user);
 		    console.log(token);
 		    console.log("token: " + token);
@@ -165,20 +164,22 @@ function loginWithGoogle() {
 				$(".login_html").hide();
 				$(".admin-content").show();
 			}
-		    // ...
+		} else {
+			console.log("ERROR");
+		    // ..
 		}
 	  // The signed-in user info.
 
-	}).catch(function(error) {
-	  // Handle Errors here.
-		  var errorCode = error.code;
-		  var errorMessage = error.message;
-		  // The email of the user's account used.
-		  var email = error.email;
-		  // The firebase.auth.AuthCredential type that was used.
-		  var credential = error.credential;
-	  // ...
-	});
+	// }).catch(function(error) {
+	//   // Handle Errors here.
+	// 	  var errorCode = error.code;
+	// 	  var errorMessage = error.message;
+	// 	  // The email of the user's account used.
+	// 	  var email = error.email;
+	// 	  // The firebase.auth.AuthCredential type that was used.
+	// 	  var credential = error.credential;
+	//   // ...
+	// });
 
 }
 

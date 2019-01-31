@@ -9,6 +9,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 	<script src="../scripts/main.js"></script>
 	<script src="../scripts/email.js"></script>
+	<script src="../scripts/auth.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin>
 	<script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
@@ -17,15 +18,19 @@
 	<!-- <meta name="google-signin-client_id" content="288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com"> -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
-	<script src="../scripts/base64.js"></script>
 	<!-- http://bootstrapdocs.com/v3.3.4/docs/javascript/ -->
 
 	<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
 	<script>
-		window.onLoadCallback = function(){
+		// window.onLoadCallback = function(){
+ 	// 		gapi.auth2.init({
+  //     			client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com'
+  //   	});
+    	window.onLoadCallback = function(){
  			gapi.auth2.init({
       			client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com'
     	});
+
 }
 </script>
 <!-- 
@@ -100,8 +105,8 @@ table {
 
 <body> <!-- showCurrentScores()"> -->
 
-<button onclick="authenticate().then(loadClient)">authorize and load</button>
-<button onclick="execute()">execute</button>
+<!-- <button onclick="authenticate().then(loadClient)">authorize and load</button>
+<button onclick="execute()">execute</button> -->
 
 
 <!-- Last part of BODY element in file index.html -->
@@ -116,7 +121,7 @@ table {
 			</div>
 
 			<div>
-				<button class="left btn btn-default" onclick = "constructEmail('test construction')">
+				<button class="left btn btn-default" onclick ='authenticate().then(loadClient)'></button> <!-- "constructEmail('test construction')"> -->
 					<img width="20px" alt="Google &quot;G&quot; Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
 					Login with Google
 				</button>
@@ -132,7 +137,7 @@ table {
 
 
 		<!-- <button onclick="authenticate().then(loadClient)">authorize and load</button> -->
-		<button onclick="loadClient().then().execute()">execute</button>
+		<button onclick="testFunctionToSendEmail()">execute</button>
 
 		<!-- ending email -->
 
