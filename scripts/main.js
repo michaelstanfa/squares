@@ -23,22 +23,21 @@ function createNewUser(firstnameinput, lastnameinput, emailinput) {
 	};
 	  // Get a key for a new user.
 	  var newUserKey = firebase.database().ref().child('users').push().key;
-	  console.log(newUserKey);
 	  var updates = {};
 	  updates['/users/' + newUserKey] = userData;
 	  firebase.database().ref().update(updates);
-}
-
-function updateScores() {
-	var db = firebase.database();
-	var updateData = {
-		rams: document.getElementById("score_rams").value,
-		pats: document.getElementById("score_pats").value
 	}
 
-	var scoreUpdates = {};
-	scoreUpdates['scores'] = updateData;
-	db.ref().update(scoreUpdates);
+	function updateScores() {
+		var db = firebase.database();
+		var updateData = {
+			rams: document.getElementById("score_rams").value,
+			pats: document.getElementById("score_pats").value
+		}
+
+		var scoreUpdates = {};
+		scoreUpdates['scores'] = updateData;
+		db.ref().update(scoreUpdates);
 	document.getElementById("score_rams").value = "";// = '';
 	document.getElementById("score_pats").value = "";//value = '';
 
@@ -63,7 +62,6 @@ function retrieveCurrentUserCount() {
 
 function count(snapshot) {
 	var this_count = 0;
-	console.log(snapshot);
 	snapshot.forEach(function(user){
 		this_count += 1;
 	});
@@ -146,59 +144,17 @@ function deleteUser(userkey) {
 	console.log("Deleting user " + userkey.text());
 }
 
-//authentication stuff
-function loginWithGoogle() {
+function displayAdminHTML() {
 
-	// firebase.auth().signInWithPopup(provider).then(function(result){
 		if (gapi.auth2.getAuthInstance() != null) {
-		    // This gives you a Google Access Token. You can use it to access the Google API.
-		    var profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()
-		    console.log(profile);
-		    
-			if(profile.getEmail()!="stanfa.michael@gmail.com"){
-				$(".login_html").html("Sorry, this page is for admins only.");
-			} else {
-				$(".login_html").hide();
-				$(".admin-content").show();
-			}
+		    var profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()	    
+		    if(profile.getEmail()!="stanfa.michael@gmail.com"){
+		    	$(".login_html").html("Sorry, this page is for admins only.");
+		    } else {
+		    	$(".login_html").hide();
+		    	$(".admin-content").show();
+		    }
 		} else {
-			console.log("ERROR");
-		    // ..
+			console.log("Error gathering auth info when displaying admin info.");
 		}
-	  // The signed-in user info.
-
-	// }).catch(function(error) {
-	//   // Handle Errors here.
-	// 	  var errorCode = error.code;
-	// 	  var errorMessage = error.message;
-	// 	  // The email of the user's account used.
-	// 	  var email = error.email;
-	// 	  // The firebase.auth.AuthCredential type that was used.
-	// 	  var credential = error.credential;
-	//   // ...
-	// });
-
-}
-
-	/*firebase.auth().getRedirectResult().then(function(result) {
-		if (result.credential) {
-	    // This gives you a Google Access Token. You can use it to access the Google API.
-	    var token = result.credential.accessToken;
-	    console.log(token);
-	    console.log(result);
-	    console.log(result.user);
-	    // ...
-
 	}
-	  // The signed-in user info.
-	  var user = result.user;
-	}).catch(function(error) {
-	  // Handle Errors here.
-	  var errorCode = error.code;
-	  var errorMessage = error.message;
-	  // The email of the user's account used.
-	  var email = error.email;
-	  // The firebase.auth.AuthCredential type that was used.
-	  var credential = error.credential;
-	  // ...
-	});*/
