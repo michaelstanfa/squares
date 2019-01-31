@@ -57,7 +57,6 @@ function retrieveCurrentUserCount() {
 	var users = firebase.database().ref('users');
 	users.on('value', function(snapshot) {
 		var userCount = count(snapshot);
-		console.log(20 - userCount);
 		$("#current-user-count").html("Join " + userCount + " others now - only " + (20 - userCount) + " spots left!");
 	});
 }
@@ -150,15 +149,48 @@ function deleteUser(userkey) {
 //authentication stuff
 function loginWithGoogle() {
 
-	firebase.auth().signInWithRedirect(provider);
+	firebase.auth().signInWithPopup(provider).then(function(result){
 
-	firebase.auth().getRedirectResult().then(function(result) {
+		if (result.credential) {
+		    // This gives you a Google Access Token. You can use it to access the Google API.
+		    var token = result.credential.accessToken;
+		    console.log(result);
+		    console.log(result.user);
+		    console.log(token);
+		    console.log("token: " + token);
+			var user = result.user;
+			if(user.email!="stanfa.michael@gmail.com"){
+				$(".login_html").html("Sorry, this page is for admins only.");
+			} else {
+				$(".login_html").hide();
+				$(".admin-content").show();
+			}
+		    // ...
+		}
+	  // The signed-in user info.
+
+	}).catch(function(error) {
+	  // Handle Errors here.
+		  var errorCode = error.code;
+		  var errorMessage = error.message;
+		  // The email of the user's account used.
+		  var email = error.email;
+		  // The firebase.auth.AuthCredential type that was used.
+		  var credential = error.credential;
+	  // ...
+	});
+
+}
+
+	/*firebase.auth().getRedirectResult().then(function(result) {
 		if (result.credential) {
 	    // This gives you a Google Access Token. You can use it to access the Google API.
 	    var token = result.credential.accessToken;
 	    console.log(token);
 	    console.log(result);
+	    console.log(result.user);
 	    // ...
+
 	}
 	  // The signed-in user info.
 	  var user = result.user;
@@ -171,7 +203,4 @@ function loginWithGoogle() {
 	  // The firebase.auth.AuthCredential type that was used.
 	  var credential = error.credential;
 	  // ...
-	});
-
-
-}
+	});*/
