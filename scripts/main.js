@@ -21,26 +21,24 @@ function createNewUser(firstnameinput, lastnameinput, emailinput) {
 		lastname: lastnameinput,
 		email: emailinput
 	};
+	  // Get a key for a new user.
+	  var newUserKey = firebase.database().ref().child('users').push().key;
+	  console.log(newUserKey);
+	  var updates = {};
+	  updates['/users/' + newUserKey] = userData;
+	  firebase.database().ref().update(updates);
+}
 
-		  // Get a key for a new user.
-		  var newUserKey = firebase.database().ref().child('users').push().key;
-		  console.log(newUserKey);
-		  var updates = {};
-		  updates['/users/' + newUserKey] = userData;
+function updateScores() {
+	var db = firebase.database();
+	var updateData = {
+		rams: document.getElementById("score_rams").value,
+		pats: document.getElementById("score_pats").value
+	}
 
-		  firebase.database().ref().update(updates);
-		}
-
-		function updateScores() {
-			var db = firebase.database();
-			var updateData = {
-				rams: document.getElementById("score_rams").value,
-				pats: document.getElementById("score_pats").value
-			}
-
-			var scoreUpdates = {};
-			scoreUpdates['scores'] = updateData;
-			db.ref().update(scoreUpdates);
+	var scoreUpdates = {};
+	scoreUpdates['scores'] = updateData;
+	db.ref().update(scoreUpdates);
 	document.getElementById("score_rams").value = "";// = '';
 	document.getElementById("score_pats").value = "";//value = '';
 
@@ -123,7 +121,6 @@ function loadGrid() {
 }
 
 function loadAdminPage() {
-	auth();
 
 	showCurrentScores();
 	showRegisteredUsers();
@@ -151,17 +148,18 @@ function deleteUser(userkey) {
 }
 
 //authentication stuff
-function auth() {
+function loginWithGoogle() {
 
-	var provider = new firebase.auth.GoogleAuthProvider();
 	firebase.auth().signInWithRedirect(provider);
 
 	firebase.auth().getRedirectResult().then(function(result) {
-	  if (result.credential) {
+		if (result.credential) {
 	    // This gives you a Google Access Token. You can use it to access the Google API.
 	    var token = result.credential.accessToken;
+	    console.log(token);
+	    console.log(result);
 	    // ...
-	  }
+	}
 	  // The signed-in user info.
 	  var user = result.user;
 	}).catch(function(error) {
