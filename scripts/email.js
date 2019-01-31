@@ -1,5 +1,3 @@
-
-
 function sendMessage(headers_obj, message, callback)
 {
   var email = '';
@@ -23,14 +21,13 @@ function sendMessage(headers_obj, message, callback)
 
 function sendEmail()
 {
-  $('#send-button').addClass('disabled');
 
   sendMessage(
     {
-      'To': 'michael.t.stanfa@gmail.com',
-      'Subject': 'test subject'
+      'To': $('#email-modal-to')[0].innerHTML,
+      'Subject': $('#email-modal-subject')[0].value,
     },
-    'this is the message of the email',
+    $('#email-modal-email-body')[0].value,
     composeTidy
   );
 
@@ -39,122 +36,11 @@ function sendEmail()
 
 function composeTidy()
 {
-  console.log('you hit the compose tidy function!');
+  $('#email-modal-to')[0].innerHTML = "";
+  $('#email-modal-subject')[0].value ="";
+  $('#email-modal-email-body')[0].value = "";
 }
 
-function testFunctionToSendEmail() {
-    sendEmail();
-}    
-/**
-
-{
-  "message": {
-    "to:": "michael.t.stanfa@gmail.com",
-    "subject:":" test subject"
-  }
-
+function openEmailModal() {
+    $('#email-modal-to').html($('#info-modal-email-address').get(0).innerHTML);
 }
-
-**/
-
-/*"headers": [ # List of headers on this message part. For the top-level message part, representing the entire message payload, it will contain the standard RFC 2822 email headers such as To, From, and Subject.
-        {
-          "name": "A String", # The name of the header before the : separator. For example, To.
-          "value": "A String", # The value of the header after the : separator. For example, someuser@example.com.
-        },
-      ]
-*/
-    /*var message = '{"payload" : {"headers": [{"name": "To", "value":"michael.t.stanfa@gmail.com"},]}}'
-    var msg = Base64.encodeURI(message);
-    return gapi.client.gmail.users.drafts.create({
-      
-      "userId": "stanfa.michael@gmail.com",
-      "resource": {
-        "message": {
-          "raw": msg
-        }
-      }
-    })
-        .then(function(response) {
-                // Handle the results here (response.result has the parsed body).
-                console.log("Response", response);
-              },
-              function(err) { console.error("Execute error", err); });
-  }*/
-
-
-// function authenticate() {
-//     return gapi.auth2.getAuthInstance()
-//         .signIn(
-//             {scope: "https://mail.google.com/ https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.modify https://www.googleapis.com/auth/gmail.readonly",
-//             'clientId': '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com'
-//       })
-//         .then(function() { console.log("Sign-in successful"); },
-//               function(err) { console.error("Error signing in", err); });
-//   }
-//   function loadClient() {
-//     gapi.client.setToken({'access_token': gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token});
-//     return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/gmail/v1/rest")
-//         .then(function() { console.log("GAPI client loaded for API"); },
-//               function(err) { console.error("Error loading GAPI client for API", err); });
-//   }
-//   // Make sure the client is loaded and sign-in is complete before calling this method.
-//   function execute() {
-
-   
-//     // gapi.auth2.setToken({'access_token': gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token});
-//     return gapi.client.gmail.users.getProfile({
-//       "userId": "stanfa.michael@gmail.com"
-//     })
-//         .then(function(response) {
-//                 // Handle the results here (response.result has the parsed body).
-//                 console.log("Response", response);
-//               },
-//               function(err) { console.error("Execute error", err); });
-//   }
-// /*
-//   function init() {
-//     gapi.load("client:auth2", function() {
-//       gapi.auth2.init({client_id: YOUR_CLIENT_ID});
-//   });
-// }*/
-
-//   function constructEmail(message) {
-//     // loadGpai();
-//     var GoogleAuth_1 = loadGpai();
-//     var msg = Base64.encodeURI("test email");
-//     return gapi.client.gmail.users.drafts.create({
-
-//       'userId':"stanfa.michael@gmail.com",
-//       'resource': {
-//           'message': { 
-//             'raw': msg
-//           }
-//       }
-//     }).then(function(response){
-//         console.log("Response", response);
-//       },
-//               function(err) { console.error("Execute error", err); });
-//     }
-
-/*function loadGpai() {
-  var GoogleAuth;
-  // gapi.client.init({
-  //       // 'apiKey': 'AIzaSyA95UFMiGFfXTnirRByeudylpDfQUEaMuU',
-  //       'clientId': '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com',
-  //       'scope': 'https://www.googleapis.com/auth/drive.metadata.readonly ',
-  //       'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
-  //   }).then(function () {
-        GoogleAuth = gapi.auth2.getAuthInstance();
-        console.log(GoogleAuth);
-        return GoogleAuth;
-
-      // });
-  // gapi.load("client:auth2", function() {
-  //   gapi.auth2.init({client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com'});
-  // })
-}*/
-
-  // gapi.load("client:auth2", function() {
-  //   gapi.auth2.init({client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com'});
-  // })

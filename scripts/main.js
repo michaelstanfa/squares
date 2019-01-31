@@ -136,7 +136,7 @@ function hideUsers() {
 
 function openUserModal(ele) {
 
-	$("#modal-title").html(ele.email);
+	$("#info-modal-email-address").html(ele.email);
 	$("#modal-user-firstname-lastname").html(ele.firstname + " " + ele.lastname);
 	$("#modal-user-key").html(ele.key);
 
@@ -147,18 +147,15 @@ function deleteUser(userkey) {
 }
 
 //authentication stuff
-function loginWithGoogle(result) {
+function loginWithGoogle() {
 
 	// firebase.auth().signInWithPopup(provider).then(function(result){
-		if (result.currentUser) {
+		if (gapi.auth2.getAuthInstance() != null) {
 		    // This gives you a Google Access Token. You can use it to access the Google API.
-		    var user = result.currentUser;
-		    console.log(user);
-		    console.log(result.user);
-		    console.log(token);
-		    console.log("token: " + token);
-			var user = result.user;
-			if(user.email!="stanfa.michael@gmail.com"){
+		    var profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()
+		    console.log(profile);
+		    
+			if(profile.getEmail()!="stanfa.michael@gmail.com"){
 				$(".login_html").html("Sorry, this page is for admins only.");
 			} else {
 				$(".login_html").hide();
