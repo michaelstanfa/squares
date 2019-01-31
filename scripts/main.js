@@ -57,7 +57,6 @@ function retrieveCurrentUserCount() {
 	var users = firebase.database().ref('users');
 	users.on('value', function(snapshot) {
 		var userCount = count(snapshot);
-		console.log(20 - userCount);
 		$("#current-user-count").html("Join " + userCount + " others now - only " + (20 - userCount) + " spots left!");
 	});
 }
@@ -137,7 +136,7 @@ function hideUsers() {
 
 function openUserModal(ele) {
 
-	$("#modal-title").html(ele.email);
+	$("#info-modal-email-address").html(ele.email);
 	$("#modal-user-firstname-lastname").html(ele.firstname + " " + ele.lastname);
 	$("#modal-user-key").html(ele.key);
 
@@ -150,15 +149,46 @@ function deleteUser(userkey) {
 //authentication stuff
 function loginWithGoogle() {
 
-	firebase.auth().signInWithRedirect(provider);
+	// firebase.auth().signInWithPopup(provider).then(function(result){
+		if (gapi.auth2.getAuthInstance() != null) {
+		    // This gives you a Google Access Token. You can use it to access the Google API.
+		    var profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()
+		    console.log(profile);
+		    
+			if(profile.getEmail()!="stanfa.michael@gmail.com"){
+				$(".login_html").html("Sorry, this page is for admins only.");
+			} else {
+				$(".login_html").hide();
+				$(".admin-content").show();
+			}
+		} else {
+			console.log("ERROR");
+		    // ..
+		}
+	  // The signed-in user info.
 
-	firebase.auth().getRedirectResult().then(function(result) {
+	// }).catch(function(error) {
+	//   // Handle Errors here.
+	// 	  var errorCode = error.code;
+	// 	  var errorMessage = error.message;
+	// 	  // The email of the user's account used.
+	// 	  var email = error.email;
+	// 	  // The firebase.auth.AuthCredential type that was used.
+	// 	  var credential = error.credential;
+	//   // ...
+	// });
+
+}
+
+	/*firebase.auth().getRedirectResult().then(function(result) {
 		if (result.credential) {
 	    // This gives you a Google Access Token. You can use it to access the Google API.
 	    var token = result.credential.accessToken;
 	    console.log(token);
 	    console.log(result);
+	    console.log(result.user);
 	    // ...
+
 	}
 	  // The signed-in user info.
 	  var user = result.user;
@@ -171,7 +201,4 @@ function loginWithGoogle() {
 	  // The firebase.auth.AuthCredential type that was used.
 	  var credential = error.credential;
 	  // ...
-	});
-
-
-}
+	});*/

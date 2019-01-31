@@ -8,11 +8,57 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 	<script src="../scripts/main.js"></script>
+	<script src="../scripts/email.js"></script>
+	<script src="../scripts/auth.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin>
 	<script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
-
+	<script src="https://apis.google.com/js/api.js"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<!-- <meta name="google-signin-client_id" content="288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com"> -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
 	<!-- http://bootstrapdocs.com/v3.3.4/docs/javascript/ -->
+
+	<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+	<script>
+		// window.onLoadCallback = function(){
+ 	// 		gapi.auth2.init({
+  //     			client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com'
+  //   	});
+  window.onLoadCallback = function(){
+  	gapi.auth2.init({
+  		client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com'
+  	});
+
+  }
+</script>
+<!-- 
+	<script>
+		/*function init() {
+			gapi.load('auth2', function() {
+				auth2 = gapi.auth2.init({
+					api_key: 'AIzaSyA95UFMiGFfXTnirRByeudylpDfQUEaMuU',
+					client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com',
+					scope: 'https://mail.google.com/ https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.modify https://www.googleapis.com/auth/gmail.readonly'
+          // Scopes to request in addition to 'profile' and 'email'
+          //scope: 'additional_scope'
+      			});
+			});
+		}*/
+
+		function start() {
+			gapi.load('client:auth2', function() {
+				auth2 = gapi.auth2.init({
+					api_key: 'AIzaSyA95UFMiGFfXTnirRByeudylpDfQUEaMuU',
+					client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com',
+					scope: 'https://mail.google.com/ https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.modify https://www.googleapis.com/auth/gmail.readonly'
+          // Scopes to request in addition to 'profile' and 'email'
+          //scope: 'additional_scope'
+      			});
+			});
+		}
+	</script> -->
 
 </head>
 
@@ -57,8 +103,13 @@ table {
 	}*/
 </style>
 
-<body onload = "loadAdminPage()"> <!-- showCurrentScores()"> -->
+<body> <!-- showCurrentScores()"> -->
 
+<!-- <button onclick="authenticate().then(loadClient)">authorize and load</button>
+	<button onclick="execute()">execute</button> -->
+
+
+	<!-- Last part of BODY element in file index.html -->
 
 	<div class = "login_html">
 		<div class="container">
@@ -70,88 +121,119 @@ table {
 			</div>
 
 			<div>
-				<button class="left btn btn-default" onclick = "loginWithGoogle()">
-					<img width="20px" alt="Google &quot;G&quot; Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
-					Login with Google
-				</button>
-				<!-- <button class = "login-button btn btn-primary" onclick = "loginWithGoogle()"></button> -->
-			</div>
+				<button class="left btn btn-default" onclick ='authenticate().then(loadClient).then(loginWithGoogle).then(loadAdminPage)'></button> <!-- "constructEmail('test construction')"> -->
+				<img width="20px" alt="Google &quot;G&quot; Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+				Login with Google
+			</button>
 		</div>
 	</div>
-	<div class = "admin-content" hidden>
-		<div class="container">
-			<h1 class = "jumbotron">ADMIN PAGE</h1>
+</div>
+<div class = "admin-content" hidden>
+	<div class="container">
+		<h1 class = "jumbotron">ADMIN PAGE</h1>
+	</div>
+
+	<div class = "container">
+		<div class="form-group">
+			<h4 class = "scores">
+				<div class = "scores">Rams: </div>
+				<div class = "scores" id="score_rams_current" value></div>
+				<br>
+				<div class = "scores">Pats: </div>
+				<div class = "scores"id= "score_pats_current" value></div>
+			</h4>
 		</div>
-
-		<div class = "container">
-			<div class="form-group">
-				<h4 class = "scores">
-					<div class = "scores">Rams: </div>
-					<div class = "scores" id="score_rams_current" value></div>
-					<br>
-					<div class = "scores">Pats: </div>
-					<div class = "scores"id= "score_pats_current" value></div>
-				</h4>
-			</div>
-			<div class="form-group">
-				<input type="text" pattern="\d*" class="form-control" id= "score_rams" placeholder="Rams">
-			</div>
-			<div class="form-group">
-				<input type="text" pattern="\d*" class="form-control" id = "score_pats" placeholder="Patriots">
-			</div>
-			<div class = "form-group">
-				<button class='btn btn-warning' onclick="updateScores()">Update Score</button>
-			</div>
+		<div class="form-group">
+			<input type="text" pattern="\d*" class="form-control" id= "score_rams" placeholder="Rams">
 		</div>
-		<div class = "container">
-			<div class = "btn-group" data-toggle="buttons">
-				<button id="show-users" class = "btn btn-info" onclick="showUsers()">Show Users</button>
-				<button id="hide-users" class = "btn btn-info" onclick="hideUsers()">Hide Users</button>
-			</div>
-			<div>
-				<table id = "users-table"  class = "table registered-users" hidden>
-
-				</table>
-			</div>
-			<br>
+		<div class="form-group">
+			<input type="text" pattern="\d*" class="form-control" id = "score_pats" placeholder="Patriots">
 		</div>
-
-
-		<div class = "container">
-			<div class = 'btn-group container scramble'>
-				<button class = "btn btn-success" id = "randomize_numbers" onclick = "randomizeNumbers()">Scramble Numbers</button>
-				<button class = "btn btn-success" id = "randomize_squares" onclick = "randomizeSquares()">Scramble Squares</button>
-			</div>
-			<div>
-				<table id="grid-top-level container" class = "table">
-
-				</table>
-			</div>
+		<div class = "form-group">
+			<button class='btn btn-warning' onclick="updateScores()">Update Score</button>
 		</div>
+	</div>
+	<div class = "container">
+		<div class = "btn-group" data-toggle="buttons">
+			<button id="show-users" class = "btn btn-info" onclick="showUsers()">Show Users</button>
+			<button id="hide-users" class = "btn btn-info" onclick="hideUsers()">Hide Users</button>
+		</div>
+		<div>
+			<table id = "users-table"  class = "table registered-users" hidden>
 
-		<!-- Modal -->
-		<div id="infoModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
+			</table>
+		</div>
+		<br>
+	</div>
 
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 id="modal-title" class = "inline"></h4>
-						<button class="inline send-email btn btn-primary" onclick="sendEmail()">Email</button>
-					</div>
-					<div class="modal-body">
-						<p id = "modal-user-firstname-lastname"></p>
-						<p id = "modal-user-key"></p>
-					</div>
-					<div class="modal-footer">
-						<button type ="button" class = "btn btn-danger" onclick='deleteUser($("#modal-user-key"))'>Delete User</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
+
+	<div class = "container">
+		<div class = 'btn-group container scramble'>
+			<button class = "btn btn-success" id = "randomize_numbers" onclick = "randomizeNumbers()">Scramble Numbers</button>
+			<button class = "btn btn-success" id = "randomize_squares" onclick = "randomizeSquares()">Scramble Squares</button>
+		</div>
+		<div>
+			<table id="grid-top-level container" class = "table">
+
+			</table>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div id="infoModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 id="info-modal-email-address" class = "inline"></h4>
+					<button class="inline send-email btn btn-primary" onclick="openEmailModal()" data-dismiss="modal" data-target='#emailModal' data-toggle='modal'>Email</button>
 				</div>
-
+				<div class="modal-body">
+					<p id = "modal-user-firstname-lastname"></p>
+					<p id = "modal-user-key"></p>
+				</div>
+				<div class="modal-footer">
+					<button type ="button" class = "btn btn-danger" onclick='deleteUser($("#modal-user-key"))'>Delete User</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
 			</div>
+
 		</div>
 	</div>
+
+	<!-- Modal -->
+	<div id="emailModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class = "inline">Send Email</h4>
+				</div>
+				<div class="modal-body">
+					<h4 class = "inline">To: </h4>
+					<h4 class = "inline" id="email-modal-to"></h4>
+					<div class="form-group">
+						<label for="email-modal-subject">Subject</label>
+						<textarea class="form-control" id="email-modal-subject" rows="1"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="email-modal-email-body">Message</label>
+						<textarea class="form-control" id="email-modal-email-body" rows="3"></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type ="button" class = "btn btn-success" data-dismiss="modal" onclick='sendEmail()'>Send</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+</div>
 </body>
 
 

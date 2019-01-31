@@ -1,0 +1,26 @@
+{
+  "web": {
+    "client_id": "288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com",
+    "project_id": "squares-2019",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "lAxwSvN6fVyb6Mjf2NrxICUh",
+    "redirect_uris": [
+      "https://michaelstanfa.github.io",
+      "https://localhost:7800"
+    ],
+    "javascript_origins": [
+      "https://michaelstanfa.github.io",
+      "https://localhost:7800"
+    ]
+  }
+}
+
+{
+  "message": {
+    "to:": "michael.t.stanfa@gmail.com",
+    "subject:":" test subject"
+}
+
+}
