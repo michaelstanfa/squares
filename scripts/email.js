@@ -37,6 +37,8 @@ function sendEmail() {
 
 function composeTidy() {
   $('#email-modal-to')[0].innerHTML = "";
+  $('#email-modal-cc')[0].innerHTML = "";
+  $('#email-modal-bcc')[0].innerHTML = "";
   $('#email-modal-subject')[0].value ="";
   $('#email-modal-email-body')[0].value = "";
 }
