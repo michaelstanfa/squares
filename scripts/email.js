@@ -24,7 +24,7 @@ function sendEmail() {
   sendMessage(
   {
     'To': $('#email-modal-to')[0].innerHTML,
-    'Cc':"michael.t.stanfa@gmail.com",
+    'Cc': $('#email-modal-cc')[0].innerHTML,
     "Bcc": $('#email-modal-bcc')[0].value,
     'Subject': $('#email-modal-subject')[0].value,
   },
