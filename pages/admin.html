@@ -43,7 +43,7 @@
 	font-weight: bold;
 }
 
-table {
+.table {
 	padding: 2px;
 	border-top;
 	border-bottom;
@@ -115,6 +115,8 @@ table {
 			</div>
 		</div>
 		<div class = "container">
+			<div class = "inline">User Count: </div>
+			<div class="inline" id="user-count-info"></div>
 			<div class = "btn-group" data-toggle="buttons">
 				<button id="show-users" class = "btn btn-info" onclick="showUsers()">Show Users</button>
 				<button id="hide-users" class = "btn btn-info" onclick="hideUsers()">Hide Users</button>
@@ -129,7 +131,7 @@ table {
 
 
 		<div class = "container">
-			<div class = 'btn-group container scramble'>
+			<div class = "btn-group">
 				<button class = "btn btn-success" id = "randomize_numbers" onclick = "randomizeNumbers()">Scramble Numbers</button>
 			</div>
 			<div>
@@ -174,6 +176,12 @@ table {
 					<div class="modal-body">
 						<h4 class = "inline">To: </h4>
 						<h4 class = "inline" id="email-modal-to"></h4>
+						<br>
+						<h6 class = "inline">Cc: </h4>
+						<h6 class = "inline" id="email-modal-cc"></h6>
+						<br>
+						<h6 class = "inline">Bcc: </h4>
+						<textarea class = "form-control" id="email-modal-bcc" readOnly rows = "1"></textarea>
 						<div class="form-group">
 							<label for="email-modal-subject">Subject</label>
 							<textarea class="form-control" id="email-modal-subject" rows="1"></textarea>

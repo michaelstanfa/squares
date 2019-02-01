@@ -77,9 +77,14 @@ function count(snapshot) {
 
 function showRegisteredUsers() {
 	var users = firebase.database().ref('users');
+	users.on('value', function(snapshot) {
+		var userCount = count(snapshot);
+		$('#user-count-info').html(userCount);
+	});
+
 	$(".registered-users").html("");
 	//todo move this table out to a new location
-	var htmlheader = "<tbody><tr class='header'><td>id</td><td>email</td><td>first name</td><td>last name</td></tr>"
+	var htmlheader = "<tbody><tr class='header'><td><button class='btn btn-primary' onclick='openEmailEverybodyModal()' data-target='#emailModal' data-toggle='modal'>Email All</button></td><td>email</td><td>first name</td><td>last name</td></tr>"
 	//todo add in delete option from id column
 	$(".registered-users").append(htmlheader);
 	users.on('value', function(snapshot) {
@@ -153,15 +158,15 @@ function deleteUser(userkey) {
 
 function displayAdminHTML() {
 
-		if (gapi.auth2.getAuthInstance() != null) {
-		    var profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()	    
-		    if(profile.getEmail()!="stanfa.michael@gmail.com"){
-		    	$(".login_html").html("Sorry, this page is for admins only.");
-		    } else {
-		    	$(".login_html").hide();
-		    	$(".admin-content").show();
-		    }
-		} else {
-			console.log("Error gathering auth info when displaying admin info.");
-		}
+	if (gapi.auth2.getAuthInstance() != null) {
+	    var profile = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()	    
+	    if(profile.getEmail()!="stanfa.michael@gmail.com"){
+	    	$(".login_html").html("Sorry, this page is for admins only.");
+	    } else {
+	    	$(".login_html").hide();
+	    	$(".admin-content").show();
+	    }
+	} else {
+		console.log("Error gathering auth info when displaying admin info.");
 	}
+}
