@@ -44,6 +44,7 @@ function composeTidy() {
 }
 
 function openEmailModal() {
+  composeTidy();
   $('#email-modal-to').html($('#info-modal-email-address').get(0).innerHTML);
 }
 
