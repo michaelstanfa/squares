@@ -8,7 +8,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 	<script src="../scripts/main.js"></script>
-
+	<script src="../scripts/squares.js"></script>
 
 </head>
 
@@ -18,62 +18,36 @@
 	text-align: center;
 }
 
-
+.inline {
+	display:inline-block;
+}
 </style>
 
-<body onload = "showCurrentScores()">
+<body onload = "showCurrentScores(); buildSquares();">
 
 	<div class="container">
 		<div class="form-group">
+			<button class = "btn btn-primary">Jumble!</button>
 			<div class="container">
 				<div class="form-group">
-					<div id = "score_pats_current"></div>
-				</div>
-				<div class="form-group">
-					<div id = "score_rams_current"></div>
+					<div class = "form-group inline">Pats: </div>
+					<div class = "inline" id = "score_pats_current"></div>
+					<div class = "form-group inline">Rams: </div>
+					<div class = "inline" id = "score_rams_current"></div>
 				</div>
 			</div>
-			<div class="container">
-				<tr>PATRIOTS</tr>
+			<div class="container form-group">
+				<div class = "inline">PATRIOTS</div>
+				<div class = "inline" id = "pats-index-numbers"></div>
 			</div>
-			<div class="container">
-				<th>
-					<tr>
-						<td colspan = "1">
-							EMPTY
-						</td>
-						<td colspan = "1">
-							0
-						</td>
-						<td colspan = "1">
-							1
-						</td>
-						<td>
-							2
-						</td>
-						<td>
-							3
-						</td>
-						<td>
-							4
-						</td>
-						<td>
-							5
-						</td>
-						<td>
-							6
-						</td>
-						<td>
-							7
-						</td>
-						<td>
-							3
-						</td>
-						<td>
-							4
-						</td>
-					</tr>
-				</th>
+			<div class="container form-group">
+				<div class = "inline">RAMS</div>
+				<div class = "inline" id = "rams-index-numbers"></div>
+			</div>
+			<br>
+
+			<div class="container form-group" id = "squares_grid">
+
 			</div>
 		</div>
 	</div>
