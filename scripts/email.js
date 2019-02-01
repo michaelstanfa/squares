@@ -19,28 +19,50 @@ function sendMessage(headers_obj, message, callback)
   return sendRequest.execute(callback);
 }
 
-function sendEmail()
-{
+function sendEmail() {
 
   sendMessage(
-    {
-      'To': $('#email-modal-to')[0].innerHTML,
-      'Subject': $('#email-modal-subject')[0].value,
-    },
-    $('#email-modal-email-body')[0].value,
-    composeTidy
+  {
+    'To': $('#email-modal-to')[0].innerHTML,
+    'Cc':"michael.t.stanfa@gmail.com",
+    "Bcc": $('#email-modal-bcc')[0].value,
+    'Subject': $('#email-modal-subject')[0].value,
+  },
+  $('#email-modal-email-body')[0].value,
+  composeTidy
   );
 
   return false;
 }
 
-function composeTidy()
-{
+function composeTidy() {
   $('#email-modal-to')[0].innerHTML = "";
   $('#email-modal-subject')[0].value ="";
   $('#email-modal-email-body')[0].value = "";
 }
 
 function openEmailModal() {
-    $('#email-modal-to').html($('#info-modal-email-address').get(0).innerHTML);
+  $('#email-modal-to').html($('#info-modal-email-address').get(0).innerHTML);
+}
+
+function openEmailEverybodyModal() {
+
+  $('#email-modal-to').html('');
+
+  var allPeople;
+  var to = "";
+  var bcc = "";
+  var cc= "";
+  var allPeople = firebase.database().ref('users');
+
+  allPeople.on('value',function(users) {
+    users.forEach(function(user){
+      bcc += user.val().email + ",";  
+    });
+  });
+  bcc = bcc.slice(0,-1);
+  
+  $("#email-modal-bcc").html(bcc);
+  $("#email-modal-cc").html("stanfa.michael@gmail.com");
+
 }
