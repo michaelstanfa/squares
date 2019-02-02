@@ -84,7 +84,7 @@ function showRegisteredUsers() {
 
 	$(".registered-users").html("");
 	//todo move this table out to a new location
-	var htmlheader = "<tbody><tr class='header'><td><button class='btn btn-primary' onclick='openEmailEverybodyModal()' data-target='#emailModal' data-toggle='modal'>Email All</button></td><td>email</td><td>first name</td><td>last name</td></tr>"
+	var htmlheader = "<tbody><tr class='header'><td><button class='btn btn-primary' onclick='openEmailEverybodyModal()' data-target='#emailModal' data-toggle='modal'>Email All</button></td><td>email</td><td>first name</td><td>last name</td><td>Submitted</td></tr>"
 	//todo add in delete option from id column
 	$(".registered-users").append(htmlheader);
 	users.on('value', function(snapshot) {
@@ -97,6 +97,7 @@ function showRegisteredUsers() {
 			htmltableappend += "<td>"+user.val().email+"</td>";
 			htmltableappend += "<td >"+user.val().firstname+"</td>";
 			htmltableappend += "<td>"+user.val().lastname+"</td>";
+			htmltableappend += "<td>"+user.val().submitted+"</td>";
 			htmltableappend += "</tr>";
 			$(".registered-users").append(htmltableappend);
 		});

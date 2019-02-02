@@ -21,22 +21,29 @@ function buildSquares() {
 	getGridChoices();
 	var urlParams = getUrlVars();
 	user_id= urlParams['resu'];
-
-	return new Promise(function(resolve, reject){
-		var selecting_user = db.ref('users/' + user_id);
-		selecting_user.on('value', function(info){
-			userSelecting = {
-				id: info.key,
-				email: info.val().email,
-				firstname: info.val().firstname,
-				lastname: info.val().lastname,
-				initials: returnInitials(info.val().firstname, info.val().lastname),
-				submitted: info.val().submitted,
-			}
-			resolve(populateUserInfo(userSelecting));
+	if(user_id != null) {
+		return new Promise(function(resolve, reject){
+			var selecting_user = db.ref('users/' + user_id);
+			selecting_user.on('value', function(info){
+				userSelecting = {
+					id: info.key,
+					email: info.val().email,
+					firstname: info.val().firstname,
+					lastname: info.val().lastname,
+					initials: returnInitials(info.val().firstname, info.val().lastname),
+					submitted: info.val().submitted,
+				}
+				resolve(populateUserInfo(userSelecting));
+			});
 		});
-	});
-		
+	} else {
+		console.log("viewing the squares");
+		setupViewing();
+	}
+}
+
+function setupViewing(){
+	$("#all-selection-info").attr("hidden","hidden");
 }
 
 function populateUserInfo(info) {
@@ -127,14 +134,16 @@ function buildRamsHeader(header){
 }
 
 function addCellToSelected(cell){
-	if ($("#selected-squares > div").length == 10) {
-		window.alert("You have 5! Start over or submit");
-	} else if($("#" + cell.id)[0].innerHTML != ""){
-		window.alert("Already selected! Pick another.");
-	} else {
+	if(!userSelecting.id == null) {
+		if ($("#selected-squares > div").length == 10) {
+			window.alert("You have 5! Start over or submit");
+		} else if($("#" + cell.id)[0].innerHTML != ""){
+			window.alert("Already selected! Pick another.");
+		} else {
 
-		$("#selected-squares").append("<div class='inline option' role='option'>" + cell.id + "</div><div class = 'inline'>&nbsp</div>");
-		$("#" + cell.id)[0].innerHTML = userSelecting.initials;
+			$("#selected-squares").append("<div class='inline option' role='option'>" + cell.id + "</div><div class = 'inline'>&nbsp</div>");
+			$("#" + cell.id)[0].innerHTML = userSelecting.initials;
+		}
 	}
 }
 
