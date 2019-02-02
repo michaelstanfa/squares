@@ -10,16 +10,14 @@ var db;
 
 function buildSquares() {
 	db = firebase.database();
-	//$('#squares_grid').html('');
 	var grid_labels = db.ref('grid');
+	var team_scores = db.ref('scores');
 	grid_labels.on('value', function(numbers){
-		//buildPatsHeader(numbers.val().top);
-		//buildRamsHeader(numbers.val().left);
 		dummyHeaders();
-		selectWinners();
+		getGridChoices();
 	});
 
-	getGridChoices();
+	// getGridChoices();
 	var urlParams = getUrlVars();
 	user_id= urlParams['resu'];
 	if(user_id != null) {
@@ -65,19 +63,26 @@ getUrlVars = function() {
     return vars;
 }
 
-getGridChoices = function() {
-	grid_choices = db.ref('users');
-	grid_choices.on('value', function(users) {
-		users.forEach(function(user){
-			var initials = returnInitials(user.val().firstname, user.val().lastname);
-			user.val().squares.forEach(function(square){
-				if(square.length>1){
-					$("#" + square).html(initials);
-				}
+// var getGridChoice = new Promise(function(resolve,reject) {
+function getGridChoices() {
+	return new Promise(function(resolve, reject){
+		grid_choices = db.ref('users');
+		team_scores = db.ref('scores');
+		grid_choices.on('value', function(users) {
+			users.forEach(function(user){
+				var initials = returnInitials(user.val().firstname, user.val().lastname);
+				var wholename = user.val().firstname + " " + user.val().lastname;
+				user.val().squares.forEach(function(square){
+					if(square.length>1){
+						$("#" + square).html(initials);
+						$("#" + square).attr("value", wholename);
+					}
+				});
 			});
+		resolve(selectWinners(team_scores));
 		});
 	});
-}
+} 
 
 function dummyHeaders() {
 	$("#rind-cind").html("");
@@ -194,9 +199,13 @@ function buildBoxScore() {
 	}
 }
 
-function selectWinners() {
+function selectWinners(scores) {
 	highlightCurrentWinner();
 	$("#q1_winner").html("q1 winner!");
+	console.log(scores);
+	scores.on('value',function(score){
+		$("#q1_winner").html(getWinnerFromScore(score.val().current));
+	});
 }
 
 function highlightCurrentWinner() {
@@ -208,4 +217,17 @@ function highlightCurrentWinner() {
 	console.log("pats current: " + pats_num);
 
 	$("#r" + rams_num + "-c"+ pats_num)[0].style.backgroundColor = "yellow";
+}
+
+function getWinnerFromScore(obj) {
+	
+	rams = obj.rams;
+	pats = obj.pats;
+	if(rams!="-"){
+		rams_num = rams[rams.length-1];
+		pats_num = pats[pats.length-1];
+		var ele = $("#r" + rams_num + "-c"+ pats_num);
+		return ele[0].getAttribute("value");
+
+	}
 }
