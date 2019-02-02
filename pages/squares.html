@@ -3,7 +3,7 @@
 <head>
 	<title>Play Squares</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -16,6 +16,8 @@
 
 .container {
 	text-align: center;
+	padding-right: 5px;
+	padding-left: 5px;
 }
 
 .inline {
@@ -39,7 +41,6 @@
 	display: table-cell;
 	padding: 3px 1px;
 	height: 25px;
-	max-width:5px;
 }
 .divTableHeading {
 	background-color: #EEE;
@@ -57,24 +58,68 @@
 
 </style>
 
-<body onload = "showCurrentScores(); buildSquares();">
+<body onload = "showCurrentScores(); buildSquares(); buildBoxScore();">
 
 	<div class="container">
 		<div class="form-group">
-			<div>
-			<h1 class = "container jumbotron">THE SQUARES!</h1>
+			<div class = "jumbotron">
+				<h1 class = "container">THE SQUARES!</h1>
 			</div>
-			<div class="container" hidden> <!-- TODO UNHIDE -->
-				<div class="form-group" >
-					<div class = "form-group inline">Pats: </div>
-					<div class = "inline" id = "score_pats_current"></div>
-					<div class = "form-group inline">Rams: </div>
-					<div class = "inline" id = "score_rams_current"></div>
+			<h4><a href = "../pages/info.html">How To Play</a></h4>
+			<div id = "squares-scores" class="container form-group">  <!-- TODO UNHIDE -->
+				<div colspan = "20" class = "divTableRow">
+					*This is not a box score. It's the correct score at the end of each quarter/half*
+				</div>
+				<div class="divTable">
+					<div class="divTableBody">
+						<div class="divTableRow">
+							<div class="divTableCell"></div>
+							<div class="divTableCell">1st Quarter</div>
+							<div class="divTableCell">1st Half</div>
+							<div class="divTableCell">3rd Quarter</div>
+							<div class="divTableCell">Final</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">Pats</div>
+							<div id = "pats_q1_score" class="divTableCell"></div>
+							<div id = "pats_q2_score" class="divTableCell"></div>
+							<div id = "pats_q3_score" class="divTableCell"></div>
+							<div id = "pats_final_score" class="divTableCell"></div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">Rams</div>
+							<div id = "rams_q1_score" class="divTableCell"></div>
+							<div id = "rams_q2_score" class="divTableCell"></div>
+							<div id = "rams_q3_score" class="divTableCell"></div>
+							<div id = "rams_final_score" class="divTableCell"></div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">Payout</div>
+							<div class="divTableCell">$30</div>
+							<div class="divTableCell">$50</div>
+							<div class="divTableCell">$30</div>
+							<div class="divTableCell">$90</div>
+						</div>
+							<div class="divTableRow">
+							<div class="divTableCell">Winner</div>
+							<div id = "q1_winner" class="divTableCell"></div>
+							<div id = "q2_winner" class="divTableCell"></div>
+							<div id = "q3_winner" class="divTableCell"></div>
+							<div id = "final_winner" class="divTableCell"></div>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="container form-group" HIDDEN>  <!-- TODO UNHIDE -->
-				USE THIS FOR QUARTER BY QUARTER SCORES
+
+			<div class="container"> <!-- TODO UNHIDE -->
+				<!-- <div class="form-group" > -->
+					<div class = "inline">Pats: </div>
+					<div class = "inline" id = "score_pats_current"></div>
+					<div class = "inline">Rams: </div>
+					<div class = "inline" id = "score_rams_current"></div>
+				<!-- </div> -->
 			</div>
+
 			<div id = "selecting-user-information" class = "container">
 				<h4><div class = "inline container" id = "selecting-user-information-name"></div></h4>
 				<h4><div class = "inline container" id = "selecting-user-information-email"></div></h4>
@@ -99,149 +144,160 @@
 				<div class="container form-group" id = "squares_grid">
 					<!-- inserting table -->
 					<div class="divTable" style="width: 100%;border: 1px solid #000;" >
-						<div class="divTableBody">
-							<div class="divTableRow">
-								<div id="rind-cind" class="divTableCell"></div>
-								<div id="rind-c0" class="divTableCell"></div>
-								<div id="rind-c1" class="divTableCell"></div>
-								<div id="rind-c2" class="divTableCell"></div>
-								<div id="rind-c3" class="divTableCell"></div>
-								<div id="rind-c4" class="divTableCell"></div>
-								<div id="rind-c5" class="divTableCell"></div>
-								<div id="rind-c6" class="divTableCell"></div>
-								<div id="rind-c7" class="divTableCell"></div>
-								<div id="rind-c8" class="divTableCell"></div>
-								<div id="rind-c9" class="divTableCell"></div>
+						<div class = "divTableBody">
+							<div class = "divTableRow">
+								<div class = "divTableCell"></div>
+								<div class = "divTableCell">Patriots</div>
 							</div>
-							<div class="divTableRow">
-								<div id="r0-cind" class="divTableCell"></div>
-								<div id="r0-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r0-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r0-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r0-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r0-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r0-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r0-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r0-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r0-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r0-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
-							</div>
-							<div class="divTableRow">
-								<div id="r1-cind" class="divTableCell""></div>
-								<div id="r1-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r1-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r1-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r1-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r1-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r1-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r1-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r1-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r1-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r1-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
-							</div>
-							<div class="divTableRow">
-								<div id="r2-cind" class="divTableCell"></div>
-								<div id="r2-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r2-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r2-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r2-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r2-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r2-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r2-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r2-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r2-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r2-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
-							</div>
-							<div id="" class="divTableRow">
-								<div id="r3-cind" class="divTableCell"></div>
-								<div id="r3-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r3-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r3-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r3-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r3-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r3-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r3-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r3-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r3-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r3-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
-							</div>
-							<div class="divTableRow">
-								<div id="r4-cind" class="divTableCell"></div>
-								<div id="r4-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r4-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r4-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r4-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r4-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r4-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r4-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r4-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r4-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r4-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
-							</div>
-							<div class="divTableRow">
-								<div id="r5-cind" class="divTableCell"></div>
-								<div id="r5-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r5-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r5-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r5-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r5-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r5-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r5-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r5-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r5-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r5-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
-							</div>
-							<div class="divTableRow">
-								<div id="r6-cind" class="divTableCell"></div>
-								<div id="r6-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r6-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r6-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r6-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r6-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r6-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r6-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r6-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r6-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r6-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
-							</div>
-							<div class="divTableRow">
-								<div id="r7-cind" class="divTableCell"></div>
-								<div id="r7-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r7-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r7-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r7-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r7-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r7-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r7-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r7-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r7-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r7-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
-							</div>
-							<div class="divTableRow">
-								<div id="r8-cind" class="divTableCell"></div>
-								<div id="r8-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r8-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r8-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r8-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r8-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r8-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r8-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r8-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r8-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r8-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
-							</div>
-							<div class="divTableRow">
-								<div id="r9-cind" class="divTableCell"></div>
-								<div id="r9-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r9-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r9-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r9-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r9-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r9-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r9-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r9-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r9-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
-								<div id="r9-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+							<div class = "divTableRow">
+								<div class = "divTableCell verticaltext">Rams</div>
+								<div class="divTable" style="width: 100%;border: 1px solid #000;" >
+									<div class="divTableBody">
+										<div class="divTableRow">
+											<div id="rind-cind" class="divTableCell"></div>
+											<div id="rind-c0" class="divTableCell"></div>
+											<div id="rind-c1" class="divTableCell"></div>
+											<div id="rind-c2" class="divTableCell"></div>
+											<div id="rind-c3" class="divTableCell"></div>
+											<div id="rind-c4" class="divTableCell"></div>
+											<div id="rind-c5" class="divTableCell"></div>
+											<div id="rind-c6" class="divTableCell"></div>
+											<div id="rind-c7" class="divTableCell"></div>
+											<div id="rind-c8" class="divTableCell"></div>
+											<div id="rind-c9" class="divTableCell"></div>
+										</div>
+										<div class="divTableRow">
+											<div id="r0-cind" class="divTableCell"></div>
+											<div id="r0-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r0-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r0-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r0-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r0-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r0-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r0-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r0-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r0-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r0-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+										<div class="divTableRow">
+											<div id="r1-cind" class="divTableCell""></div>
+											<div id="r1-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r1-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r1-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r1-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r1-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r1-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r1-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r1-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r1-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r1-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+										<div class="divTableRow">
+											<div id="r2-cind" class="divTableCell"></div>
+											<div id="r2-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r2-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r2-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r2-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r2-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r2-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r2-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r2-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r2-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r2-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+										<div id="" class="divTableRow">
+											<div id="r3-cind" class="divTableCell"></div>
+											<div id="r3-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r3-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r3-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r3-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r3-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r3-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r3-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r3-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r3-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r3-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+										<div class="divTableRow">
+											<div id="r4-cind" class="divTableCell"></div>
+											<div id="r4-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r4-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r4-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r4-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r4-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r4-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r4-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r4-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r4-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r4-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+										<div class="divTableRow">
+											<div id="r5-cind" class="divTableCell"></div>
+											<div id="r5-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r5-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r5-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r5-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r5-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r5-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r5-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r5-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r5-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r5-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+										<div class="divTableRow">
+											<div id="r6-cind" class="divTableCell"></div>
+											<div id="r6-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r6-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r6-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r6-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r6-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r6-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r6-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r6-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r6-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r6-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+										<div class="divTableRow">
+											<div id="r7-cind" class="divTableCell"></div>
+											<div id="r7-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r7-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r7-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r7-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r7-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r7-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r7-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r7-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r7-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r7-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+										<div class="divTableRow">
+											<div id="r8-cind" class="divTableCell"></div>
+											<div id="r8-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r8-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r8-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r8-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r8-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r8-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r8-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r8-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r8-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r8-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+										<div class="divTableRow">
+											<div id="r9-cind" class="divTableCell"></div>
+											<div id="r9-c0" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r9-c1" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r9-c2" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r9-c3" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r9-c4" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r9-c5" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r9-c6" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r9-c7" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r9-c8" class="divTableCell" onclick="addCellToSelected(this)"></div>
+											<div id="r9-c9" class="divTableCell" onclick="addCellToSelected(this)"></div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

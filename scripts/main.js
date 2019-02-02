@@ -21,14 +21,14 @@ function createNewUser(firstnameinput, lastnameinput, emailinput) {
 		lastname: lastnameinput,
 		email: emailinput
 	};
-	  // Get a key for a new user.
-	  var newUserKey = firebase.database().ref().child('users').push().key;
-	  var updates = {};
-	  updates['/users/' + newUserKey] = userData;
-	  firebase.database().ref().update(updates);
-	}
+  // Get a key for a new user.
+	var newUserKey = firebase.database().ref().child('users').push().key;
+	var updates = {};
+	updates['/users/' + newUserKey] = userData;
+	firebase.database().ref().update(updates);
+}
 
-	function updateScores() {
+function updateScores(when) {
 		var db = firebase.database();
 		var updateData = {
 			rams: document.getElementById("score_rams").value,
@@ -36,7 +36,7 @@ function createNewUser(firstnameinput, lastnameinput, emailinput) {
 		}
 
 		var scoreUpdates = {};
-		scoreUpdates['scores'] = updateData;
+		scoreUpdates['scores/' + when] = updateData;
 		db.ref().update(scoreUpdates);
 	document.getElementById("score_rams").value = "";// = '';
 	document.getElementById("score_pats").value = "";//value = '';
@@ -47,8 +47,25 @@ function showCurrentScores() {
 	var scores = firebase.database().ref('scores');
 
 	scores.on('value', function(snapshot) {
-		$("#score_pats_current").html(snapshot.val().pats);
-		$("#score_rams_current").html(snapshot.val().rams);
+		ss = snapshot.val();
+		current = ss.current;
+		q1 = ss.q1;
+		q2 = ss.q2;
+		q3 = ss.q3;
+		q4 = ss.q4;
+
+		$("#score_pats_current").html(current.pats);
+		$("#score_rams_current").html(current.rams);
+
+		$("#pats_q1_score").html(q1.pats);
+		$("#pats_q2_score").html(q2.pats);
+		$("#pats_q3_score").html(q3.pats);
+		$("#pats_final_score").html(q4.pats);
+
+		$("#rams_q1_score").html(q1.rams);
+		$("#rams_q2_score").html(q2.rams);
+		$("#rams_q3_score").html(q3.rams);
+		$("#rams_final_score").html(q4.rams);
 	});
 }
 
