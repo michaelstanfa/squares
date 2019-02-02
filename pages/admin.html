@@ -20,11 +20,11 @@
 	<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
 	<script>
 
-	window.onLoadCallback = function(){
-		gapi.auth2.init({
-			client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com'
-		});
-	}
+		window.onLoadCallback = function(){
+			gapi.auth2.init({
+				client_id: '288496341273-vbkcvk5eancre2goe4r229cqqnd3ga7d.apps.googleusercontent.com'
+			});
+		}
 	</script>
 
 </head>
@@ -103,12 +103,18 @@
 				<input type="text" pattern="\d*" class="form-control" id = "score_pats" placeholder="Patriots">
 			</div>
 			<div class = "form-group">
-				<button class='btn btn-warning' onclick="updateScores()">Update Score</button>
+				<button class='btn btn-warning' onclick="updateScores('current')">Update Current</button>
+			</div>
+			<div class = "form-group">
+				<button class='btn btn-primary inline' onclick="updateScores('q1')">Update Q1</button>
+				<button class='btn btn-danger inline' onclick="updateScores('q2')">Update Q2</button>
+				<button class='btn btn-default inline' onclick="updateScores('q3')">Update Q3</button>
+				<button class='btn btn-success inline' onclick="updateScores('q4')">Update Q4</button>
 			</div>
 		</div>
 		<div class = "container">
-			<div class = "inline">User Count: </div>
-			<div class="inline" id="user-count-info"></div>
+			<div class = "inline" style="display:none;">User Count: </div>
+			<div class="inline" id="user-count-info" style="display:none;"></div>
 			<div class = "btn-group" data-toggle="buttons">
 				<button id="show-users" class = "btn btn-info" onclick="showUsers()">Show Users</button>
 				<button id="hide-users" class = "btn btn-info" onclick="hideUsers()">Hide Users</button>
@@ -170,57 +176,57 @@
 						<h4 class = "inline" id="email-modal-to"></h4>
 						<br>
 						<h6 class = "inline">Cc: </h4>
-						<h6 class = "inline" id="email-modal-cc"></h6>
-						<br>
-						<h6 class = "inline">Bcc: </h4>
-						<textarea class = "form-control" id="email-modal-bcc" readOnly rows = "1"></textarea>
-						<div class="form-group">
-							<label for="email-modal-subject">Subject</label>
-							<textarea class="form-control" id="email-modal-subject" rows="1"></textarea>
+							<h6 class = "inline" id="email-modal-cc"></h6>
+							<br>
+							<h6 class = "inline">Bcc: </h4>
+								<textarea class = "form-control" id="email-modal-bcc" readOnly rows = "1"></textarea>
+								<div class="form-group">
+									<label for="email-modal-subject">Subject</label>
+									<textarea class="form-control" id="email-modal-subject" rows="1"></textarea>
+								</div>
+								<div class="form-group">
+									<label for="email-modal-email-body">Message</label>
+									<textarea class="form-control" id="email-modal-email-body" rows="3"></textarea>
+								</div>
+							</form>
 						</div>
-						<div class="form-group">
-							<label for="email-modal-email-body">Message</label>
-							<textarea class="form-control" id="email-modal-email-body" rows="3"></textarea>
+						<div class="modal-footer">
+							<button type ="button" class = "btn btn-success" data-dismiss="modal" onclick='sendEmail(); composeTidy();'>Send</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal" onclick='composeTidy()'>Close</button>
 						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type ="button" class = "btn btn-success" data-dismiss="modal" onclick='sendEmail(); composeTidy();'>Send</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal" onclick='composeTidy()'>Close</button>
+					</div>
+
 				</div>
 			</div>
 
 		</div>
-	</div>
-
-</div>
-</body>
+	</body>
 
 
 
 
 
-<!-- Firebase App is always required and must be first -->
-<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-app.js"></script>
+	<!-- Firebase App is always required and must be first -->
+	<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-app.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-database.js"></script>
 
-<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-functions.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
-<script>
-	var config = {
-		apiKey: "AIzaSyCUGB7Y0OjCATuHDPdqkz7s-ubBYBd-UPY",
-		authDomain: "squares-89f70.firebaseapp.com",
-		databaseURL: "https://squares-89f70.firebaseio.com",
-		projectId: "squares-89f70",
-		storageBucket: "squares-89f70.appspot.com",
-		messagingSenderId: "800364648521"
+	<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-functions.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
+	<script>
+		var config = {
+			apiKey: "AIzaSyCUGB7Y0OjCATuHDPdqkz7s-ubBYBd-UPY",
+			authDomain: "squares-89f70.firebaseapp.com",
+			databaseURL: "https://squares-89f70.firebaseio.com",
+			projectId: "squares-89f70",
+			storageBucket: "squares-89f70.appspot.com",
+			messagingSenderId: "800364648521"
 
-	};
-	squares = firebase.initializeApp(config);
-	squaresStorage = squares.storage();
-	var provider = new firebase.auth.GoogleAuthProvider();
-</script>
+		};
+		squares = firebase.initializeApp(config);
+		squaresStorage = squares.storage();
+		var provider = new firebase.auth.GoogleAuthProvider();
+	</script>
 
-</html>
+	</html>

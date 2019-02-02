@@ -16,6 +16,7 @@ function buildSquares() {
 		//buildPatsHeader(numbers.val().top);
 		//buildRamsHeader(numbers.val().left);
 		dummyHeaders();
+		selectWinners();
 	});
 
 	getGridChoices();
@@ -47,8 +48,6 @@ function setupViewing(){
 }
 
 function populateUserInfo(info) {
-	console.log(info.initials);
-	console.log(info.submitted);
 	$("#selecting-user-information-name").html(info.firstname + " " + info.lastname);
 	$("#selecting-user-information-email").html(info.email);
 	if(info.submitted) {
@@ -154,7 +153,7 @@ function clearSelectedSquares() {
 }
 
 function submitMySquares() {
-	console.log($("#selected-squares > div").length);
+
 	if($("#selected-squares > div").length != 10) {
 		window.alert("You have more squares to pick!");
 	} else {
@@ -187,4 +186,26 @@ function submitSquares(squares) {
 	var submittedUpdate = {};
 	submittedUpdate['users/' + id + '/submitted'] = true;
 	db.ref().update(submittedUpdate);
+}
+
+function buildBoxScore() {
+	if(userSelecting.id==null){
+		$("#selecting-user-information").attr("style","display:none;");
+	}
+}
+
+function selectWinners() {
+	highlightCurrentWinner();
+	$("#q1_winner").html("q1 winner!");
+}
+
+function highlightCurrentWinner() {
+	var rams_num = $("#score_rams_current")[0].innerHTML;
+	var pats_num = $("#score_pats_current")[0].innerHTML;
+	rams_num = rams_num[rams_num.length - 1];
+	pats_num = pats_num[pats_num.length - 1];
+	console.log("rams current: " + rams_num);
+	console.log("pats current: " + pats_num);
+
+	$("#r" + rams_num + "-c"+ pats_num)[0].style.backgroundColor = "yellow";
 }
