@@ -57,11 +57,13 @@
 
 </style>
 
-<body onload = "showCurrentScores(); buildSquares(); localSelectUsernameBox();">
+<body onload = "showCurrentScores(); buildSquares();">
 
 	<div class="container">
 		<div class="form-group">
+			<div>
 			<h1 class = "container jumbotron">THE SQUARES!</h1>
+			</div>
 			<div class="container" hidden> <!-- TODO UNHIDE -->
 				<div class="form-group" >
 					<div class = "form-group inline">Pats: </div>
@@ -73,23 +75,20 @@
 			<div class="container form-group" HIDDEN>  <!-- TODO UNHIDE -->
 				USE THIS FOR QUARTER BY QUARTER SCORES
 			</div>
-			<div class="container form-group dropdown">  <!-- TODO UNHIDE -->
-				Select your name (if you select somebody else's you'll fuck it up!)
+			<div id = "selecting-user-information" class = "container">
+				<h4><div class = "inline container" id = "selecting-user-information-name"></div></h4>
+				<h4><div class = "inline container" id = "selecting-user-information-email"></div></h4>
 			</div>
-			<div>
-				<select id = "square-select-usernames" onchange="changeselect()">
-				</select>
-			</div>
-			<br>
 			<div class = "container">
-				<div>
-					<h4>My Selected Squares</h4>
-				</div>
-				<div role = "listbox" id= "selected-squares">
-
-				</div>
+				<div id = "my-selected-squares" class = "container">My Selected Squares</div>
+				<div class = "container" id= "selected-squares"></div>
 				<br>
-				<div class = "container">
+				<div>
+					<h3 hidden id = "squares-filled-warning-message">
+						Sorry, You've Already Submitted Your Squares!
+					</h3>
+				</div>
+				<div id = "submit-clear-buttons">
 					<button class = "container btn btn-primary" onclick ="submitMySquares()">Submit Selected Squares</button>
 					<button class = "container btn btn-danger" onclick ="clearSelectedSquares()">Clear Selected Squares</button>
 				</div>
