@@ -134,7 +134,7 @@ function buildRamsHeader(header){
 }
 
 function addCellToSelected(cell){
-	if(!userSelecting.id == null) {
+	if(userSelecting.id!=null){
 		if ($("#selected-squares > div").length == 10) {
 			window.alert("You have 5! Start over or submit");
 		} else if($("#" + cell.id)[0].innerHTML != ""){
