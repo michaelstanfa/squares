@@ -1,17 +1,80 @@
+var userSelecting = {
+	id:null,
+	email:null,
+	firstname:null,
+	lastname:null,
+	initials:null,
+	submitted:null,
+};
+var db;
+
 function buildSquares() {
+	db = firebase.database();
 	//$('#squares_grid').html('');
-	var grid_numbers = firebase.database().ref('grid');
-	grid_numbers.on('value', function(numbers){
+	var grid_labels = db.ref('grid');
+	grid_labels.on('value', function(numbers){
 		//buildPatsHeader(numbers.val().top);
 		//buildRamsHeader(numbers.val().left);
 		dummyHeaders();
 	});
-	var currentSelectedCellsArray = [];
-	
+
+	getGridChoices();
+	var urlParams = getUrlVars();
+	user_id= urlParams['resu'];
+
+	return new Promise(function(resolve, reject){
+		var selecting_user = db.ref('users/' + user_id);
+		selecting_user.on('value', function(info){
+			userSelecting = {
+				id: info.key,
+				email: info.val().email,
+				firstname: info.val().firstname,
+				lastname: info.val().lastname,
+				initials: returnInitials(info.val().firstname, info.val().lastname),
+				submitted: info.val().submitted,
+			}
+			resolve(populateUserInfo(userSelecting));
+		});
+	});
+		
+}
+
+function populateUserInfo(info) {
+	console.log(info.initials);
+	console.log(info.submitted);
+	$("#selecting-user-information-name").html(info.firstname + " " + info.lastname);
+	$("#selecting-user-information-email").html(info.email);
+	if(info.submitted) {
+		$("#squares-filled-warning-message").removeAttr("hidden");
+		$("#submit-clear-buttons").attr("hidden","hidden");
+		$("#my-selected-squares").attr("hidden","hidden");
+	}
+}
+
+getUrlVars = function() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+getGridChoices = function() {
+	grid_choices = db.ref('users');
+	grid_choices.on('value', function(users) {
+		users.forEach(function(user){
+			var initials = returnInitials(user.val().firstname, user.val().lastname);
+			user.val().squares.forEach(function(square){
+				if(square.length>1){
+					$("#" + square).html(initials);
+				}
+			});
+		});
+	});
 }
 
 function dummyHeaders() {
-	$("#rind-cind").html("Squares");
+	$("#rind-cind").html("");
 	$("#rind-c0").html("c0");
 	$("#rind-c1").html("c1");
 	$("#rind-c2").html("c2");
@@ -71,7 +134,7 @@ function addCellToSelected(cell){
 	} else {
 
 		$("#selected-squares").append("<div class='inline option' role='option'>" + cell.id + "</div><div class = 'inline'>&nbsp</div>");
-		$("#" + cell.id)[0].innerHTML = $("#square-select-usernames").children("option:selected").attr("initials");
+		$("#" + cell.id)[0].innerHTML = userSelecting.initials;
 	}
 }
 
@@ -96,31 +159,23 @@ function submitMySquares() {
 		}
 		submitSquares(squares);
 		window.alert("Thanks! Your squares have been submitted.");
-		//location.reload();
+		location.reload();
 	}
 
 }
 
-function localSelectUsernameBox() {
-	var users = firebase.database().ref('users');
-	users.on('value', function(snapshot) {
-		snapshot.forEach(function(user){
-			var this_html = "";
-			this_html = "<option id = " + user.key + " initials=" + user.val().firstname.substring(0,1) + user.val().lastname.substring(0,1) + " value=" + user.val().email +">" + user.val().firstname + " " + user.val().lastname + "</option>";
-			$("#square-select-usernames").append(this_html);
-		});
-	});
-}
-
-function changeselect() {
-	console.log($("#square-select-usernames"));
-	console.log($("#square-select-usernames").children("option:selected"));
+function returnInitials(firstname, lastname) {
+	return firstname.substring(0,1) + lastname.substring(0,1);
 }
 
 function submitSquares(squares) {
-	var id = $("#square-select-usernames").children("option:selected").attr("id");
-	console.log(id);
+	
+	var id = userSelecting.id;
 	var squaresUpdates = {};
 	squaresUpdates['users/' + id + '/squares'] = squares;
-	firebase.database().ref().update(squaresUpdates);
+	db.ref().update(squaresUpdates);
+
+	var submittedUpdate = {};
+	submittedUpdate['users/' + id + '/submitted'] = true;
+	db.ref().update(submittedUpdate);
 }
