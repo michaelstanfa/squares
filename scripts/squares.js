@@ -80,39 +80,43 @@ function getGridChoices() {
 						var pats_int = square[square.length - 1];
 						var rams_score = $("#r" + rams_int + "-cind")[0].innerHTML;
 						var pats_score = $("#rind-c" + pats_int)[0].innerHTML;
-						$("#" + square).attr("class", "divTableCell rs" + rams_score + "-cs" + pats_score);						
+						$("#" + square).attr("class", "divTableCell rs" + rams_score + "-cs" + pats_score + " " + initials);						
 					}
 				});
 			});
 		resolve(selectWinners(team_scores));
+		resolve(seeWhoIsPlaying());
 		});
 	});
 } 
 
-function dummyHeaders() {
-	$("#rind-cind").html("");
-	$("#rind-c0").html("c0");
-	$("#rind-c1").html("c1");
-	$("#rind-c2").html("c2");
-	$("#rind-c3").html("c3");
-	$("#rind-c4").html("c4");
-	$("#rind-c5").html("c5");
-	$("#rind-c6").html("c6");
-	$("#rind-c7").html("c7");
-	$("#rind-c8").html("c8");
-	$("#rind-c9").html("c9");
+function seeWhoIsPlaying() {
+	return new Promise(function(resolve, reject) {
+		var options = ""
+		$('#see-who-is-playing').html('');
+		var users = db.ref('users');
+		users.on('value', function(snapshot) {
+			console.log(snapshot);
+			options += "<option class = 'container' value = '' ></option>";
+			snapshot.forEach(function(user){
+				var initials = returnInitials(user.val().firstname, user.val().lastname);
+				var wholename = user.val().firstname + " " + user.val().lastname;
+				options +=  "<option class = 'container who-is-playing' value = " + initials + ">" + wholename + "</option>";
+			});
+			resolve($("#see-who-is-playing").append(options));
+		});
+	});
+}
 
-	$("#r0-cind").html("r0");
-	$("#r1-cind").html("r1");
-	$("#r2-cind").html("r2");
-	$("#r3-cind").html("r3");
-	$("#r4-cind").html("r4");
-	$("#r5-cind").html("r5");
-	$("#r6-cind").html("r6");
-	$("#r7-cind").html("r7");
-	$("#r8-cind").html("r8");
-	$("#r9-cind").html("r9");
+function viewWhoIsPlaying(ele) {
 
+	var initials = ele.options[ele.selectedIndex].value;
+	$(".divTableCell").each(function(x, cell) {
+		$('.divTableCell')[x].style.fontWeight = 100;
+	});
+	$("." + initials).each(function(i, element) {
+		$('.' + initials)[i].style.fontWeight=900;
+	});
 }
 
 function buildPatsHeader(header){

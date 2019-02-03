@@ -58,7 +58,7 @@
 
 </style>
 
-<body onload = "showCurrentScores(); buildSquares(); buildBoxScore();">
+<body onload = "showCurrentScores(); buildSquares(); buildBoxScore();"> <!-- seeWhoIsPlaying(); -->
 
 	<div class="container">
 		<div class="form-group">
@@ -134,13 +134,19 @@
 							Sorry, You've Already Submitted Your Squares!
 						</h3>
 					</div>
-					<div id = "submit-clear-buttons">
+					<div id = "submit-clear-buttons" hidden>
 						<button class = "container btn btn-primary" onclick ="submitMySquares()">Submit Selected Squares</button>
 						<button class = "container btn btn-danger" onclick ="clearSelectedSquares()">Clear Selected Squares</button>
 					</div>
 					<br>
 				</div>
 				<br>
+				<div class = "container form-group">
+					<div class = "form-group">Select A Name To View Their Squares!</div>
+					<select id = "see-who-is-playing" onchange = "viewWhoIsPlaying(this)">
+
+					</select>
+				</div>
 				<div class="container form-group" id = "squares_grid">
 					<!-- inserting table -->
 					<div class="divTable" style="width: 100%;border: 1px solid #000;" >
