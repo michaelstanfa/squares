@@ -114,9 +114,11 @@ function viewWhoIsPlaying(ele) {
 	$(".divTableCell").each(function(x, cell) {
 		$('.divTableCell')[x].style.fontWeight = 100;
 	});
-	$("." + initials).each(function(i, element) {
-		$('.' + initials)[i].style.fontWeight=900;
-	});
+	if(initials!="") {
+		$("." + initials).each(function(i, element) {
+			$('.' + initials)[i].style.fontWeight=900;
+		});
+	}
 }
 
 function buildPatsHeader(header){
