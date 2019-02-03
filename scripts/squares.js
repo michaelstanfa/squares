@@ -112,7 +112,7 @@ function viewWhoIsPlaying(ele) {
 
 	var initials = ele.options[ele.selectedIndex].value;
 	$(".divTableCell").each(function(x, cell) {
-		$('.divTableCell')[x].style.fontWeight = 100;
+		$('.divTableCell')[x].style.fontWeight = 250;
 	});
 	if(initials!="") {
 		$("." + initials).each(function(i, element) {
