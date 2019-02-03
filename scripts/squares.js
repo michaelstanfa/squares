@@ -80,7 +80,7 @@ function getGridChoices() {
 						var pats_int = square[square.length - 1];
 						var rams_score = $("#r" + rams_int + "-cind")[0].innerHTML;
 						var pats_score = $("#rind-c" + pats_int)[0].innerHTML;
-						$("#" + square).attr("class", "divTableCell rs" + rams_score + "-cs" + pats_score + " " + initials);						
+						$("#" + square).attr("class", "divTableCell cell-with-initials rs" + rams_score + "-cs" + pats_score + " " + initials);						
 					}
 				});
 			});
@@ -111,8 +111,8 @@ function seeWhoIsPlaying() {
 function viewWhoIsPlaying(ele) {
 
 	var initials = ele.options[ele.selectedIndex].value;
-	$(".divTableCell").each(function(x, cell) {
-		$('.divTableCell')[x].style.fontWeight = 250;
+	$(".cell-with-initials").each(function(x, cell) {
+		$('.cell-with-initials')[x].style.fontWeight = 250;
 	});
 	if(initials!="") {
 		$("." + initials).each(function(i, element) {
