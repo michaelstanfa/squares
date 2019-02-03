@@ -13,11 +13,11 @@ function buildSquares() {
 	var grid_labels = db.ref('grid');
 	var team_scores = db.ref('scores');
 	grid_labels.on('value', function(numbers){
-		dummyHeaders();
+		buildPatsHeader(numbers.val().top);
+		buildRamsHeader(numbers.val().left);
 		getGridChoices();
 	});
 
-	// getGridChoices();
 	var urlParams = getUrlVars();
 	user_id= urlParams['resu'];
 	if(user_id != null) {
@@ -36,7 +36,6 @@ function buildSquares() {
 			});
 		});
 	} else {
-		console.log("viewing the squares");
 		setupViewing();
 	}
 }
@@ -63,12 +62,13 @@ getUrlVars = function() {
     return vars;
 }
 
-// var getGridChoice = new Promise(function(resolve,reject) {
 function getGridChoices() {
 	return new Promise(function(resolve, reject){
-		grid_choices = db.ref('users');
+		user_grid_choices = db.ref('users');
 		team_scores = db.ref('scores');
-		grid_choices.on('value', function(users) {
+		grid_values = db.ref('grid')
+
+		user_grid_choices.on('value', function(users) {
 			users.forEach(function(user){
 				var initials = returnInitials(user.val().firstname, user.val().lastname);
 				var wholename = user.val().firstname + " " + user.val().lastname;
@@ -76,6 +76,11 @@ function getGridChoices() {
 					if(square.length>1){
 						$("#" + square).html(initials);
 						$("#" + square).attr("value", wholename);
+						var rams_int = square[square.length - 4];
+						var pats_int = square[square.length - 1];
+						var rams_score = $("#r" + rams_int + "-cind")[0].innerHTML;
+						var pats_score = $("#rind-c" + pats_int)[0].innerHTML;
+						$("#" + square).attr("class", "divTableCell rs" + rams_score + "-cs" + pats_score);						
 					}
 				});
 			});
@@ -201,10 +206,11 @@ function buildBoxScore() {
 
 function selectWinners(scores) {
 	highlightCurrentWinner();
-	$("#q1_winner").html("q1 winner!");
-	console.log(scores);
 	scores.on('value',function(score){
-		$("#q1_winner").html(getWinnerFromScore(score.val().current));
+		$("#q1_winner").html(getWinnerFromScore(score.val().q1));
+		$("#q2_winner").html(getWinnerFromScore(score.val().q2));
+		$("#q3_winner").html(getWinnerFromScore(score.val().q3));
+		$("#q4_winner").html(getWinnerFromScore(score.val().q4));
 	});
 }
 
@@ -216,7 +222,7 @@ function highlightCurrentWinner() {
 	console.log("rams current: " + rams_num);
 	console.log("pats current: " + pats_num);
 
-	$("#r" + rams_num + "-c"+ pats_num)[0].style.backgroundColor = "yellow";
+	$(".rs" + rams_num + "-cs"+ pats_num)[0].style.backgroundColor = "yellow";
 }
 
 function getWinnerFromScore(obj) {
@@ -226,7 +232,7 @@ function getWinnerFromScore(obj) {
 	if(rams!="-"){
 		rams_num = rams[rams.length-1];
 		pats_num = pats[pats.length-1];
-		var ele = $("#r" + rams_num + "-c"+ pats_num);
+		var ele = $(".rs" + rams_num + "-cs"+ pats_num);
 		return ele[0].getAttribute("value");
 
 	}
