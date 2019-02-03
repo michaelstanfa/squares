@@ -116,7 +116,6 @@ function dummyHeaders() {
 }
 
 function buildPatsHeader(header){
-	$("#rind-cind").html("Squares");
 	$("#rind-c0").html(header.zero).attr("class","divTableCell row_score_" + header.zero);
 	$("#rind-c1").html(header.one).attr("class","divTableCell row_score_" + header.one);
 	$("#rind-c2").html(header.two).attr("class","divTableCell row_score_" + header.two);
@@ -219,9 +218,6 @@ function highlightCurrentWinner() {
 	var pats_num = $("#score_pats_current")[0].innerHTML;
 	rams_num = rams_num[rams_num.length - 1];
 	pats_num = pats_num[pats_num.length - 1];
-	console.log("rams current: " + rams_num);
-	console.log("pats current: " + pats_num);
-
 	$(".rs" + rams_num + "-cs"+ pats_num)[0].style.backgroundColor = "yellow";
 }
 
