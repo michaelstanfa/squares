@@ -60,12 +60,12 @@ function showCurrentScores() {
 		$("#pats_q1_score").html(q1.pats);
 		$("#pats_q2_score").html(q2.pats);
 		$("#pats_q3_score").html(q3.pats);
-		$("#pats_final_score").html(q4.pats);
+		$("#pats_q4_score").html(q4.pats);
 
 		$("#rams_q1_score").html(q1.rams);
 		$("#rams_q2_score").html(q2.rams);
 		$("#rams_q3_score").html(q3.rams);
-		$("#rams_final_score").html(q4.rams);
+		$("#rams_q4_score").html(q4.rams);
 	});
 }
 
