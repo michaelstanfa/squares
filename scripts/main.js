@@ -199,6 +199,9 @@ function randomScoreNumber(score, random) {
 }
 
 function randomizeNumbers() {
+	if(db == null) {
+		var db = firebase.database();
+	}
 	afcNumbers = [];
 	nfcNumbers = [];
 	for(score = 0; score < 10; score++) {
@@ -241,6 +244,11 @@ function randomizeNumbers() {
 }
 
 function nullifyNumbers() {
+
+	if(db == null) {
+		var db = firebase.database();
+	}
+	
 	var nullHeader = {
 		zero: "--",
 		one: "--",
