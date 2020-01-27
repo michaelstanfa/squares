@@ -13,8 +13,8 @@ function buildSquares() {
 	var grid_labels = db.ref('grid');
 	var team_scores = db.ref('scores');
 	grid_labels.on('value', function(numbers){
-		buildPatsHeader(numbers.val().top);
-		buildRamsHeader(numbers.val().left);
+		buildAFCHeader(numbers.val().afc);
+		buildNFCHeader(numbers.val().nfc);
 		getGridChoices();
 	});
 
@@ -76,19 +76,24 @@ function getGridChoices() {
 					if(square.length>1){
 						$("#" + square).html(initials);
 						$("#" + square).attr("value", wholename);
-						var rams_int = square[square.length - 4];
-						var pats_int = square[square.length - 1];
-						var rams_score = $("#r" + rams_int + "-cind")[0].innerHTML;
-						var pats_score = $("#rind-c" + pats_int)[0].innerHTML;
-						$("#" + square).attr("class", "divTableCell cell-with-initials rs" + rams_score + "-cs" + pats_score + " " + initials);						
+						var nfc_int = square[square.length - 4];
+						var afc_int = square[square.length - 1];
+						var nfc_score = $("#r" + nfc_int + "-cind")[0].innerHTML;
+						var afc_score = $("#rind-c" + afc_int)[0].innerHTML;
+						$("#" + square).attr("class", "divTableCell cell-with-initials rs" + nfc_score + "-cs" + afc_score + " " + initials);						
 					}
 				});
 			});
-		resolve(selectWinners(team_scores));
+		//resolve(selectWinners(team_scores));
 		resolve(seeWhoIsPlaying());
 		});
 	});
 } 
+
+function dropdownUser(wholeName, initials) {
+	this.wholeName = wholeName,
+	this.initials = initials
+}
 
 function seeWhoIsPlaying() {
 	return new Promise(function(resolve, reject) {
@@ -98,11 +103,18 @@ function seeWhoIsPlaying() {
 		users.on('value', function(snapshot) {
 			console.log(snapshot);
 			options += "<option class = 'container' value = '' ></option>";
+			var namelist = [];
 			snapshot.forEach(function(user){
 				var initials = returnInitials(user.val().firstname, user.val().lastname);
 				var wholename = user.val().firstname + " " + user.val().lastname;
-				options +=  "<option class = 'container who-is-playing' value = " + initials + ">" + wholename + "</option>";
+				namelist.push(new dropdownUser(wholename, initials));
 			});
+
+			namelist.sort((a, b) => (a.wholeName > b.wholeName) ? 1 : -1);
+			namelist.forEach(function(name) {
+				options += "<option class = 'container who-is-playing' value = " + name.initials + ">" + name.wholeName + "</option>";
+			});
+
 			resolve($("#see-who-is-playing").append(options));
 		});
 	});
@@ -111,6 +123,7 @@ function seeWhoIsPlaying() {
 function viewWhoIsPlaying(ele) {
 
 	var initials = ele.options[ele.selectedIndex].value;
+	console.log(initials);
 	$(".cell-with-initials").each(function(x, cell) {
 		$('.cell-with-initials')[x].style.fontWeight = 250;
 	});
@@ -121,7 +134,7 @@ function viewWhoIsPlaying(ele) {
 	}
 }
 
-function buildPatsHeader(header){
+function buildAFCHeader(header){
 	$("#rind-c0").html(header.zero).attr("class","divTableCell row_score_" + header.zero);
 	$("#rind-c1").html(header.one).attr("class","divTableCell row_score_" + header.one);
 	$("#rind-c2").html(header.two).attr("class","divTableCell row_score_" + header.two);
@@ -134,7 +147,7 @@ function buildPatsHeader(header){
 	$("#rind-c9").html(header.nine).attr("class","divTableCell row_score_" + header.attr);
 }
 
-function buildRamsHeader(header){
+function buildNFCHeader(header){
 	$("#r0-cind").html(header.zero).attr("class","divTableCell col_score_" + header.zero);
 	$("#r1-cind").html(header.one).attr("class","divTableCell col_score_" + header.one);
 	$("#r2-cind").html(header.two).attr("class","divTableCell col_score_" + header.two);
@@ -220,21 +233,21 @@ function selectWinners(scores) {
 }
 
 function highlightCurrentWinner() {
-	var rams_num = $("#score_rams_current")[0].innerHTML;
-	var pats_num = $("#score_pats_current")[0].innerHTML;
-	rams_num = rams_num[rams_num.length - 1];
-	pats_num = pats_num[pats_num.length - 1];
-	$(".rs" + rams_num + "-cs"+ pats_num)[0].style.backgroundColor = "yellow";
+	var nfc_num = $("#score_nfc_current")[0].innerHTML;
+	var afc_num = $("#score_afc_current")[0].innerHTML;
+	nfc_num = nfc_num[nfc_num.length - 1];
+	afc_num = afc_num[afc_num.length - 1];
+	$(".rs" + nfc_num + "-cs"+ afc_num)[0].style.backgroundColor = "yellow";
 }
 
 function getWinnerFromScore(obj) {
 	
-	rams = obj.rams;
-	pats = obj.pats;
-	if(rams!="-"){
-		rams_num = rams[rams.length-1];
-		pats_num = pats[pats.length-1];
-		var ele = $(".rs" + rams_num + "-cs"+ pats_num);
+	nfc = obj.nfc;
+	afc = obj.afc;
+	if(nfc!="-"){
+		nfc_num = nfc[nfc.length-1];
+		afc_num = afc[afc.length-1];
+		var ele = $(".rs" + nfc_num + "-cs"+ afc_num);
 		return ele[0].getAttribute("value");
 
 	}

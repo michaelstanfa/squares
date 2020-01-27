@@ -21,7 +21,7 @@ function createNewUser(firstnameinput, lastnameinput, emailinput) {
 		lastname: lastnameinput,
 		email: emailinput
 	};
-  // Get a key for a new user.
+  // Get a key for a new user.`
 	var newUserKey = firebase.database().ref().child('users').push().key;
 	var updates = {};
 	updates['/users/' + newUserKey] = userData;
@@ -31,15 +31,15 @@ function createNewUser(firstnameinput, lastnameinput, emailinput) {
 function updateScores(when) {
 		var db = firebase.database();
 		var updateData = {
-			rams: document.getElementById("score_rams").value,
-			pats: document.getElementById("score_pats").value
+			nfc: document.getElementById("score_nfc").value,
+			afc: document.getElementById("score_afc").value
 		}
 
 		var scoreUpdates = {};
 		scoreUpdates['scores/' + when] = updateData;
 		db.ref().update(scoreUpdates);
-	document.getElementById("score_rams").value = "";// = '';
-	document.getElementById("score_pats").value = "";//value = '';
+	document.getElementById("score_nfc").value = "";// = '';
+	document.getElementById("score_afc").value = "";//value = '';
 
 }
 
@@ -54,18 +54,18 @@ function showCurrentScores() {
 		q3 = ss.q3;
 		q4 = ss.q4;
 
-		$("#score_pats_current").html(current.pats);
-		$("#score_rams_current").html(current.rams);
+		$("#score_afc_current").html(current.afc);
+		$("#score_nfc_current").html(current.nfc);
 
-		$("#pats_q1_score").html(q1.pats);
-		$("#pats_q2_score").html(q2.pats);
-		$("#pats_q3_score").html(q3.pats);
-		$("#pats_q4_score").html(q4.pats);
+		$("#afc_q1_score").html(q1.afc);
+		$("#afc_q2_score").html(q2.afc);
+		$("#afc_q3_score").html(q3.afc);
+		$("#afc_q4_score").html(q4.afc);
 
-		$("#rams_q1_score").html(q1.rams);
-		$("#rams_q2_score").html(q2.rams);
-		$("#rams_q3_score").html(q3.rams);
-		$("#rams_q4_score").html(q4.rams);
+		$("#nfc_q1_score").html(q1.nfc);
+		$("#nfc_q2_score").html(q2.nfc);
+		$("#nfc_q3_score").html(q3.nfc);
+		$("#nfc_q4_score").html(q4.nfc);
 	});
 }
 
@@ -123,27 +123,27 @@ function showRegisteredUsers() {
 }
 
 function loadGrid() {
-	$("#grid-top-level").html("");
-	var top_grid_html_open = "<tr><td></td>";//room enough for the left numbers
-	$("#grid-top-level").html(top_grid_html_open);
+	$("#grid-afc-level").html("");
+	var afc_grid_html_open = "<tr><td></td>";//room enough for the nfc numbers
+	$("#grid-afc-level").html(afc_grid_html_open);
 	var grid = firebase.database().ref('grid');
 	grid.on('value',function(snapshot){
-		var top_grid_html_numbers = ""
-		var top = snapshot.val().top;
-		top_grid_html_numbers += "<td class='top_num' colspan='1' id='top_num_" + top.zero + "'>" + top.zero + "</td>";
-		top_grid_html_numbers += "<td class='top_num' id='top_num_" + top.one + "'>" + top.one + "</td>";
-		top_grid_html_numbers += "<td class='top_num' id='top_num_" + top.two + "'>" + top.two + "</td>";
-		top_grid_html_numbers += "<td class='top_num' id='top_num_" + top.three + "'>" + top.three + "</td>";
-		top_grid_html_numbers += "<td class='top_num' id='top_num_" + top.four + "'>" + top.four + "</td>";
-		top_grid_html_numbers += "<td class='top_num' id='top_num_" + top.five + "'>" + top.five + "</td>";
-		top_grid_html_numbers += "<td class='top_num' id='top_num_" + top.six + "'>" + top.six + "</td>";
-		top_grid_html_numbers += "<td class='top_num' id='top_num_" + top.seven + "'>" + top.seven + "</td>";
-		top_grid_html_numbers += "<td class='top_num' id='top_num_" + top.eight + "'>" + top.eight + "</td>";
-		top_grid_html_numbers += "<td class='top_num' id='top_num_" + top.nine + "'>" + top.nine + "</td>";
-		$("#grid-top-level").append(top_grid_html_numbers);
+		var afc_grid_html_numbers = ""
+		var afc = snapshot.val().afc;
+		afc_grid_html_numbers += "<td class='afc_num' colspan='1' id='afc_num_" + afc.zero + "'>" + afc.zero + "</td>";
+		afc_grid_html_numbers += "<td class='afc_num' id='afc_num_" + afc.one + "'>" + afc.one + "</td>";
+		afc_grid_html_numbers += "<td class='afc_num' id='afc_num_" + afc.two + "'>" + afc.two + "</td>";
+		afc_grid_html_numbers += "<td class='afc_num' id='afc_num_" + afc.three + "'>" + afc.three + "</td>";
+		afc_grid_html_numbers += "<td class='afc_num' id='afc_num_" + afc.four + "'>" + afc.four + "</td>";
+		afc_grid_html_numbers += "<td class='afc_num' id='afc_num_" + afc.five + "'>" + afc.five + "</td>";
+		afc_grid_html_numbers += "<td class='afc_num' id='afc_num_" + afc.six + "'>" + afc.six + "</td>";
+		afc_grid_html_numbers += "<td class='afc_num' id='afc_num_" + afc.seven + "'>" + afc.seven + "</td>";
+		afc_grid_html_numbers += "<td class='afc_num' id='afc_num_" + afc.eight + "'>" + afc.eight + "</td>";
+		afc_grid_html_numbers += "<td class='afc_num' id='afc_num_" + afc.nine + "'>" + afc.nine + "</td>";
+		$("#grid-afc-level").append(afc_grid_html_numbers);
 	});
-	var top_grid_html_close = "</tr>";
-	$("#grid-top-level").append(top_grid_html_close);
+	var afc_grid_html_close = "</tr>";
+	$("#grid-afc-level").append(afc_grid_html_close);
 
 }
 
@@ -176,7 +176,6 @@ function deleteUser(userkey) {
 	$("#users-table").html("");
 	showRegisteredUsers();
 
-
 }
 
 function displayAdminHTML() {
@@ -192,4 +191,69 @@ function displayAdminHTML() {
 	} else {
 		console.log("Error gathering auth info when displaying admin info.");
 	}
+}
+
+function randomScoreNumber(score, random) {
+	this.score = score,
+	this.random = random;
+}
+
+function randomizeNumbers() {
+	afcNumbers = [];
+	nfcNumbers = [];
+	for(score = 0; score < 10; score++) {
+		afcNumbers.push(new randomScoreNumber(score, Math.random()))
+		nfcNumbers.push(new randomScoreNumber(score, Math.random()))
+	}
+	afcNumbers.sort((a, b) => (a.random > b.random) ? 1 : -1);
+	nfcNumbers.sort((a, b) => (a.random > b.random) ? 1 : -1);
+	let afcFinalNumbers = afcNumbers.map(a => a.score);
+	let nfcFinalNumbers = nfcNumbers.map(a => a.score);
+
+	var nfcHeader = {
+		zero: nfcFinalNumbers[0],
+		one: nfcFinalNumbers[1],
+		two: nfcFinalNumbers[2],
+		three: nfcFinalNumbers[3],
+		four: nfcFinalNumbers[4],
+		five: nfcFinalNumbers[5],
+		six: nfcFinalNumbers[6],
+		seven: nfcFinalNumbers[7],
+		eight: nfcFinalNumbers[8],
+		nine: nfcFinalNumbers[9]
+	};
+
+	var afcHeader = {
+		zero: afcFinalNumbers[0],
+		one: afcFinalNumbers[1],
+		two: afcFinalNumbers[2],
+		three: afcFinalNumbers[3],
+		four: afcFinalNumbers[4],
+		five: afcFinalNumbers[5],
+		six: afcFinalNumbers[6],
+		seven: afcFinalNumbers[7],
+		eight: afcFinalNumbers[8],
+		nine: afcFinalNumbers[9]
+	};
+
+	db.ref('grid/afc').update(afcHeader);
+	db.ref('grid/nfc').update(nfcHeader);
+}
+
+function nullifyNumbers() {
+	var nullHeader = {
+		zero: "--",
+		one: "--",
+		two: "--",
+		three: "--",
+		four: "--",
+		five: "--",
+		six: "--",
+		seven: "--",
+		eight: "--",
+		nine: "--"
+	};
+
+	db.ref('grid/afc').update(nullHeader);
+	db.ref('grid/nfc').update(nullHeader);
 }

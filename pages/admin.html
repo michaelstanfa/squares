@@ -89,18 +89,18 @@
 		<div class = "container">
 			<div class="form-group">
 				<h4 class = "scores">
-					<div class = "scores">Rams: </div>
-					<div class = "scores" id="score_rams_current" value></div>
+					<div class = "scores">49ers: </div>
+					<div class = "scores" id="score_nfc_current" value></div>
 					<br>
-					<div class = "scores">Pats: </div>
-					<div class = "scores"id= "score_pats_current" value></div>
+					<div class = "scores">Chiefs: </div>
+					<div class = "scores"id= "score_afc_current" value></div>
 				</h4>
 			</div>
 			<div class="form-group">
-				<input type="text" pattern="\d*" class="form-control" id= "score_rams" placeholder="Rams">
+				<input type="text" pattern="\d*" class="form-control" id= "score_nfc" placeholder="49ers">
 			</div>
 			<div class="form-group">
-				<input type="text" pattern="\d*" class="form-control" id = "score_pats" placeholder="Patriots">
+				<input type="text" pattern="\d*" class="form-control" id = "score_afc" placeholder="Chiefs">
 			</div>
 			<div class = "form-group">
 				<button class='btn btn-warning' onclick="updateScores('current')">Update Current</button>
@@ -131,6 +131,7 @@
 		<div class = "container">
 			<div class = "btn-group">
 				<button class = "btn btn-success" id = "randomize_numbers" onclick = "randomizeNumbers()">Scramble Numbers</button>
+				<button class = "btn btn-primary" id = "nullify_numbers" onclick = "nullifyNumbers()">Erase Numbers</button>
 			</div>
 			<div>
 				<table id="grid-top-level container" class = "table">
