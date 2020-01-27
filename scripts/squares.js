@@ -72,17 +72,19 @@ function getGridChoices() {
 			users.forEach(function(user){
 				var initials = returnInitials(user.val().firstname, user.val().lastname);
 				var wholename = user.val().firstname + " " + user.val().lastname;
-				user.val().squares.forEach(function(square){
-					if(square.length>1){
-						$("#" + square).html(initials);
-						$("#" + square).attr("value", wholename);
-						var nfc_int = square[square.length - 4];
-						var afc_int = square[square.length - 1];
-						var nfc_score = $("#r" + nfc_int + "-cind")[0].innerHTML;
-						var afc_score = $("#rind-c" + afc_int)[0].innerHTML;
-						$("#" + square).attr("class", "divTableCell cell-with-initials rs" + nfc_score + "-cs" + afc_score + " " + initials);						
-					}
-				});
+				if(user.val().squares !+ null) {}
+					user.val().squares.forEach(function(square){
+						if(square.length>1){
+							$("#" + square).html(initials);
+							$("#" + square).attr("value", wholename);
+							var nfc_int = square[square.length - 4];
+							var afc_int = square[square.length - 1];
+							var nfc_score = $("#r" + nfc_int + "-cind")[0].innerHTML;
+							var afc_score = $("#rind-c" + afc_int)[0].innerHTML;
+							$("#" + square).attr("class", "divTableCell cell-with-initials rs" + nfc_score + "-cs" + afc_score + " " + initials);						
+						}
+					});
+				}
 			});
 		//resolve(selectWinners(team_scores));
 		resolve(seeWhoIsPlaying());
