@@ -173,7 +173,9 @@ function openUserModal(ele) {
 function deleteUser(userkey) {
 	console.log("Deleting user " + userkey.text());
 	firebase.database().ref('users/' + userkey.text()).remove();
-	document.location.reload();
+	$("#users-table").html("");
+	showRegisteredUsers();
+
 }
 
 function displayAdminHTML() {
