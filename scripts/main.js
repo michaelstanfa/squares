@@ -175,6 +175,7 @@ function deleteUser(userkey) {
 	firebase.database().ref('users/' + userkey.text()).remove();
 	$("#users-table").html("");
 	showRegisteredUsers();
+	$("info-modal").close();
 
 }
 
