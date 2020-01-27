@@ -6,8 +6,10 @@ function register() {
 	if(firstName.value =="" || lastName.value == "" || emailName.value == ""){
 		window.alert("Please fill out each piece of the form.");
 	} else {
-		createNewUser(firstName.value, lastName.value, emailName.value);
-		window.alert("Thank you! You'll be contacted shortly with more info");
+		let key = createNewUser(firstName.value, lastName.value, emailName.value);
+
+		openRegisterModal(firstName.value + " " + lastName.value, key);
+
 		firstName.value = "";
 		lastName.value = "";
 		emailName.value = "";
@@ -26,6 +28,7 @@ function createNewUser(firstnameinput, lastnameinput, emailinput) {
 	var updates = {};
 	updates['/users/' + newUserKey] = userData;
 	firebase.database().ref().update(updates);
+	return newUserKey;
 }
 
 function updateScores(when) {
@@ -170,6 +173,15 @@ function openUserModal(ele) {
 
 }
 
+function openRegisterModal(name, key) {
+
+	$("#modal-user-firstname-lastname").html(name);
+	$("#modal-user-pick-squares").attr("href", "https://michaelstanfa.github.io/squares/pages/squares.html?resu=" + key);
+	$("#registerModal").modal("show");
+
+
+}
+
 function deleteUser(userkey) {
 	console.log("Deleting user " + userkey.text());
 	firebase.database().ref('users/' + userkey.text()).remove();
@@ -248,7 +260,7 @@ function nullifyNumbers() {
 	if(db == null) {
 		var db = firebase.database();
 	}
-	
+
 	var nullHeader = {
 		zero: "--",
 		one: "--",

@@ -197,7 +197,7 @@ function submitMySquares() {
 		}
 		submitSquares(squares);
 		window.alert("Thanks! Your squares have been submitted.");
-		location.reload();
+		window.location.replace('https://michaelstanfa.github.io/squares/pages/squares.html');
 	}
 
 }
