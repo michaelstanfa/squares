@@ -72,7 +72,7 @@ function getGridChoices() {
 			users.forEach(function(user){
 				var initials = returnInitials(user.val().firstname, user.val().lastname);
 				var wholename = user.val().firstname + " " + user.val().lastname;
-				if(user.val().squares != null) {}
+				if(user.val().squares != null) {
 					user.val().squares.forEach(function(square){
 						if(square.length>1){
 							$("#" + square).html(initials);
