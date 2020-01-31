@@ -211,48 +211,48 @@ function randomScoreNumber(score, random) {
 }
 
 function randomizeNumbers() {
-	if(db == null) {
-		var db = firebase.database();
-	}
-	afcNumbers = [];
-	nfcNumbers = [];
-	for(score = 0; score < 10; score++) {
-		afcNumbers.push(new randomScoreNumber(score, Math.random()))
-		nfcNumbers.push(new randomScoreNumber(score, Math.random()))
-	}
-	afcNumbers.sort((a, b) => (a.random > b.random) ? 1 : -1);
-	nfcNumbers.sort((a, b) => (a.random > b.random) ? 1 : -1);
-	let afcFinalNumbers = afcNumbers.map(a => a.score);
-	let nfcFinalNumbers = nfcNumbers.map(a => a.score);
+// 	if(db == null) {
+// 		var db = firebase.database();
+// 	}
+// 	afcNumbers = [];
+// 	nfcNumbers = [];
+// 	for(score = 0; score < 10; score++) {
+// 		afcNumbers.push(new randomScoreNumber(score, Math.random()))
+// 		nfcNumbers.push(new randomScoreNumber(score, Math.random()))
+// 	}
+// 	afcNumbers.sort((a, b) => (a.random > b.random) ? 1 : -1);
+// 	nfcNumbers.sort((a, b) => (a.random > b.random) ? 1 : -1);
+// 	let afcFinalNumbers = afcNumbers.map(a => a.score);
+// 	let nfcFinalNumbers = nfcNumbers.map(a => a.score);
 
-	var nfcHeader = {
-		zero: nfcFinalNumbers[0],
-		one: nfcFinalNumbers[1],
-		two: nfcFinalNumbers[2],
-		three: nfcFinalNumbers[3],
-		four: nfcFinalNumbers[4],
-		five: nfcFinalNumbers[5],
-		six: nfcFinalNumbers[6],
-		seven: nfcFinalNumbers[7],
-		eight: nfcFinalNumbers[8],
-		nine: nfcFinalNumbers[9]
-	};
+// 	var nfcHeader = {
+// 		zero: nfcFinalNumbers[0],
+// 		one: nfcFinalNumbers[1],
+// 		two: nfcFinalNumbers[2],
+// 		three: nfcFinalNumbers[3],
+// 		four: nfcFinalNumbers[4],
+// 		five: nfcFinalNumbers[5],
+// 		six: nfcFinalNumbers[6],
+// 		seven: nfcFinalNumbers[7],
+// 		eight: nfcFinalNumbers[8],
+// 		nine: nfcFinalNumbers[9]
+// 	};
 
-	var afcHeader = {
-		zero: afcFinalNumbers[0],
-		one: afcFinalNumbers[1],
-		two: afcFinalNumbers[2],
-		three: afcFinalNumbers[3],
-		four: afcFinalNumbers[4],
-		five: afcFinalNumbers[5],
-		six: afcFinalNumbers[6],
-		seven: afcFinalNumbers[7],
-		eight: afcFinalNumbers[8],
-		nine: afcFinalNumbers[9]
-	};
+// 	var afcHeader = {
+// 		zero: afcFinalNumbers[0],
+// 		one: afcFinalNumbers[1],
+// 		two: afcFinalNumbers[2],
+// 		three: afcFinalNumbers[3],
+// 		four: afcFinalNumbers[4],
+// 		five: afcFinalNumbers[5],
+// 		six: afcFinalNumbers[6],
+// 		seven: afcFinalNumbers[7],
+// 		eight: afcFinalNumbers[8],
+// 		nine: afcFinalNumbers[9]
+// 	};
 
-	db.ref('grid/afc').update(afcHeader);
-	db.ref('grid/nfc').update(nfcHeader);
+// 	db.ref('grid/afc').update(afcHeader);
+// 	db.ref('grid/nfc').update(nfcHeader);
 }
 
 function nullifyNumbers() {
