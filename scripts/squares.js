@@ -86,7 +86,7 @@ function getGridChoices() {
 					});
 				}
 			});
-		//resolve(selectWinners(team_scores));
+		resolve(selectWinners(team_scores));
 		resolve(seeWhoIsPlaying());
 		});
 	});
