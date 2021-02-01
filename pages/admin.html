@@ -89,18 +89,18 @@
 		<div class = "container">
 			<div class="form-group">
 				<h4 class = "scores">
-					<div class = "scores">49ers: </div>
-					<div class = "scores" id="score_nfc_current" value></div>
-					<br>
 					<div class = "scores">Chiefs: </div>
-					<div class = "scores"id= "score_afc_current" value></div>
+					<div class = "scores" id="score_afc_current" value></div>
+					<br>
+					<div class = "scores">Bucs: </div>
+					<div class = "scores"id= "score_nfc_current" value></div>
 				</h4>
 			</div>
 			<div class="form-group">
-				<input type="text" pattern="\d*" class="form-control" id= "score_nfc" placeholder="49ers">
+				<input type="text" pattern="\d*" class="form-control" id = "score_afc" placeholder="Chiefs">
 			</div>
 			<div class="form-group">
-				<input type="text" pattern="\d*" class="form-control" id = "score_afc" placeholder="Chiefs">
+				<input type="text" pattern="\d*" class="form-control" id= "score_nfc" placeholder="Bucs">
 			</div>
 			<div class = "form-group">
 				<button class='btn btn-warning' onclick="updateScores('current')">Update Current</button>
