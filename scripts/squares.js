@@ -71,17 +71,18 @@ function getGridChoices() {
 		user_grid_choices.on('value', function(users) {
 			users.forEach(function(user){
 				var initials = returnInitials(user.val().firstname, user.val().lastname);
-				var wholename = user.val().firstname + " " + user.val().lastname;
+				console.log(user.val())
+				var concatName = returnConcat(user);
 				if(user.val().squares != null) {
 					user.val().squares.forEach(function(square){
 						if(square.length>1){
 							$("#" + square).html(initials);
-							$("#" + square).attr("value", wholename);
+							$("#" + square).attr("value", concatName);
 							var nfc_int = square[square.length - 4];
 							var afc_int = square[square.length - 1];
 							var nfc_score = $("#r" + nfc_int + "-cind")[0].innerHTML;
 							var afc_score = $("#rind-c" + afc_int)[0].innerHTML;
-							$("#" + square).attr("class", "divTableCell cell-with-initials rs" + nfc_score + "-cs" + afc_score + " " + initials);						
+							$("#" + square).attr("class", "divTableCell cell-with-initials rs" + nfc_score + "-cs" + afc_score + " " + concatName);						
 						}
 					});
 				}
@@ -92,9 +93,10 @@ function getGridChoices() {
 	});
 } 
 
-function dropdownUser(wholeName, initials) {
+function dropdownUser(wholeName, initials, concatName) {
 	this.wholeName = wholeName,
-	this.initials = initials
+	this.initials = initials,
+	this.concatName = concatName
 }
 
 function seeWhoIsPlaying() {
@@ -109,12 +111,14 @@ function seeWhoIsPlaying() {
 			snapshot.forEach(function(user){
 				var initials = returnInitials(user.val().firstname, user.val().lastname);
 				var wholename = user.val().firstname + " " + user.val().lastname;
-				namelist.push(new dropdownUser(wholename, initials));
+				console.log(user)
+				var concatName = returnConcat(user)
+				namelist.push(new dropdownUser(wholename, initials, concatName));
 			});
 
 			namelist.sort((a, b) => (a.wholeName > b.wholeName) ? 1 : -1);
 			namelist.forEach(function(name) {
-				options += "<option class = 'container who-is-playing' value = " + name.initials + ">" + name.wholeName + "</option>";
+				options += "<option class = 'container who-is-playing' value = " + name.concatName + ">" + name.wholeName + "</option>";
 			});
 
 			resolve($("#see-who-is-playing").append(options));
@@ -123,7 +127,7 @@ function seeWhoIsPlaying() {
 }
 
 function viewWhoIsPlaying(ele) {
-
+	console.log(ele)
 	var initials = ele.options[ele.selectedIndex].value;
 	console.log(initials);
 	$(".cell-with-initials").each(function(x, cell) {
@@ -206,6 +210,10 @@ function returnInitials(firstname, lastname) {
 	return firstname.substring(0,1) + lastname.substring(0,1);
 }
 
+function returnConcat(user) {
+	return (user.val().firstname + "-" + user.val().lastname).replace(" ", "-")
+}
+
 function submitSquares(squares) {
 	
 	var id = userSelecting.id;
@@ -250,7 +258,7 @@ function getWinnerFromScore(obj) {
 		nfc_num = nfc[nfc.length-1];
 		afc_num = afc[afc.length-1];
 		var ele = $(".rs" + nfc_num + "-cs"+ afc_num);
-		return ele[0].getAttribute("value");
+		return ele[0].getAttribute("value").replace("-", " ");
 
 	}
 }
